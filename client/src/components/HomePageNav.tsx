@@ -1,12 +1,10 @@
 import { NavLink } from 'react-router';
-import { navStyle } from '../CSS/nav';
-import { NavbarLink } from '../CSS/homePageNav';
+
 import { useSelector } from 'react-redux';
 
 const HomePageNav = () => {
   return (
     <nav style={{
-      ...navStyle,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
@@ -30,7 +28,6 @@ const HomePageNav = () => {
       </NavLink>
 
       <NavLink to="/About" style={({ isActive }) => ({
-        ...NavbarLink,
         color: isActive ? '#004ba0' : '#333',
         fontWeight: isActive ? '700' : '400',
       })}>
@@ -38,7 +35,6 @@ const HomePageNav = () => {
       </NavLink>
 
       <NavLink to="/" style={({ isActive }) => ({
-        ...NavbarLink,
         color: isActive ? '#004ba0' : '#333',
         fontWeight: isActive ? '700' : '400',
       })}>
