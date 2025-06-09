@@ -31,3 +31,19 @@ export interface IPrompt {
   response: string;
   createdAt?: string;
 }
+// לתהליך התחברות
+export interface ILoginCredentials {
+  email: string;
+  password: string;
+}
+
+// תגובה משרת לאחר התחברות/הרשמה
+export interface IAuthResponse {
+  accessToken: string;
+  user: IUser;
+}
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
