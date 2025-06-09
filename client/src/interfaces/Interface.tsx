@@ -6,7 +6,7 @@ export interface IUser {
   lastName: string;
   phone: string;
   email: string;
-  password: string; // hashed password
+  password: string; 
   createdAt?: string;
   updatedAt?: string;
 }
