@@ -1,11 +1,14 @@
  # models/user.py
 
-from mongoengine import Document, StringField, DateTimeField
+from mongoengine import Document, StringField, DateTimeField,EmailField
 from datetime import datetime
 
+
 class User(Document):
-    name = StringField(required=True)
-    phone = StringField(required=True, unique=True)
+    firstName = StringField(required=True)
+    lastName = StringField(required=True)
+    phone = StringField(required=True)
+    email = EmailField(required=True, unique=True)  
     password = StringField(required=True)  # hashed password
 
     created_at = DateTimeField(default=datetime.utcnow)
