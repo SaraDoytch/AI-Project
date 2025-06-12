@@ -5,6 +5,7 @@ import Home from '../components/Home';
 import About from '../components/About';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
+import Learning from '../components/Learning';
 
 const router = createBrowserRouter([
 {
@@ -17,6 +18,8 @@ children: [
         path: "loginForm", element: <LoginForm />,
       },
       { path: "loginIn", element: <RegisterForm /> },
+      { path: "Learning", element: <Learning /> },
+
 ],
 },
 ]);

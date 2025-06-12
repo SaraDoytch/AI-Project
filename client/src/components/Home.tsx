@@ -15,6 +15,7 @@ import {
   IconButton,
 } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from 'react-router-dom';
 
 const mockSubjects = ["מתמטיקה", "היסטוריה", "מדעי המחשב", "פיזיקה", "אנגלית"];
 
@@ -25,7 +26,12 @@ const getGreeting = () => {
   return "ערב טוב";
 };
 
+
 const Home = () => {
+    const navigate = useNavigate();
+const handleClick = () => {
+  navigate('/Learning');
+};
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
       {/* Greeting Section */}
@@ -49,7 +55,7 @@ const Home = () => {
       <Grid container spacing={2} justifyContent="center">
         {mockSubjects.map((subject) => (
           <Grid item key={subject} xs={6} sm={4} md={3}>
-            <Card>
+            <Card onClick={handleClick}>
               <CardActionArea>
                 <CardContent>
                   <Typography variant="body1" align="center">
