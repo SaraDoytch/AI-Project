@@ -1,0 +1,5 @@
+Flask
+mongoengine
+python-dotenv
+bcrypt
+PyJWT
