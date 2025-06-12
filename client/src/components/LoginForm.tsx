@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import {
   TextField,
   Button,
@@ -9,23 +9,31 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
-const LoginForm = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+interface LoginFormData {
+  email: string;
+  password: string;
+}
 
-  const handleChange = (e) =>
+const LoginForm = () => {
+  const [formData, setFormData] = useState<LoginFormData>({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
     setSuccess("");
     try {
       const res = await axios.post("http://localhost:8000/auth/login", formData);
       setSuccess("התחברת בהצלחה!");
-      // ניתן לשמור את הטוקן: localStorage.setItem("token", res.data.token);
-    } catch (err) {
+      // localStorage.setItem("token", res.data.token);
+    } catch (err: any) {
       setError(err.response?.data?.detail || "שגיאה בהתחברות");
     }
   };

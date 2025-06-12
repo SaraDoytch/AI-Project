@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import {
   TextField,
   Button,
@@ -9,29 +9,37 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
+interface RegisterFormData {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  password: string;
+}
+
 const RegisterForm = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<RegisterFormData>({
     firstName: "",
     lastName: "",
     phone: "",
     email: "",
     password: "",
   });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
     setSuccess("");
     try {
       await axios.post("http://localhost:8000/auth/register", formData);
       setSuccess("נרשמת בהצלחה!");
-    } catch (err) {
+    } catch (err: any) {
       setError(err.response?.data?.detail || "שגיאה בהרשמה");
     }
   };
