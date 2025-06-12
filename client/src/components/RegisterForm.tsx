@@ -1,4 +1,8 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { RegisterSchema } from "../schemas/AuthSchemas";
+import { z } from "zod";
 import {
   TextField,
   Button,
@@ -9,35 +13,25 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
-interface RegisterFormData {
-  firstName: string;
-  lastName: string;
-  phone: string;
-  email: string;
-  password: string;
-}
+type RegisterFormData = z.infer<typeof RegisterSchema>;
 
 const RegisterForm = () => {
-  const [formData, setFormData] = useState<RegisterFormData>({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    email: "",
-    password: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(RegisterSchema),
   });
-  const [error, setError] = useState<string>("");
-  const [success, setSuccess] = useState<string>("");
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [error, setError] = React.useState<string>("");
+  const [success, setSuccess] = React.useState<string>("");
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: RegisterFormData) => {
     setError("");
     setSuccess("");
     try {
-      await axios.post("http://localhost:8000/auth/register", formData);
+      await axios.post("http://localhost:8000/auth/register", data);
       setSuccess("נרשמת בהצלחה!");
     } catch (err: any) {
       setError(err.response?.data?.detail || "שגיאה בהרשמה");
@@ -52,55 +46,61 @@ const RegisterForm = () => {
       {error && <Alert severity="error">{error}</Alert>}
       {success && <Alert severity="success">{success}</Alert>}
 
-      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+      <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 2 }}>
         <TextField
           label="שם פרטי"
-          name="firstName"
+          {...register("firstName")}
+          error={!!errors.firstName}
+          helperText={errors.firstName?.message}
           fullWidth
           required
           margin="normal"
-          value={formData.firstName}
-          onChange={handleChange}
         />
         <TextField
           label="שם משפחה"
-          name="lastName"
+          {...register("lastName")}
+          error={!!errors.lastName}
+          helperText={errors.lastName?.message}
           fullWidth
           required
           margin="normal"
-          value={formData.lastName}
-          onChange={handleChange}
         />
         <TextField
           label="טלפון"
-          name="phone"
+          {...register("phone")}
+          error={!!errors.phone}
+          helperText={errors.phone?.message}
           fullWidth
           required
           margin="normal"
-          value={formData.phone}
-          onChange={handleChange}
         />
         <TextField
           label="אימייל"
-          name="email"
-          type="email"
+          {...register("email")}
+          error={!!errors.email}
+          helperText={errors.email?.message}
           fullWidth
           required
           margin="normal"
-          value={formData.email}
-          onChange={handleChange}
+          type="email"
         />
         <TextField
           label="סיסמה"
-          name="password"
-          type="password"
+          {...register("password")}
+          error={!!errors.password}
+          helperText={errors.password?.message}
           fullWidth
           required
           margin="normal"
-          value={formData.password}
-          onChange={handleChange}
+          type="password"
         />
-        <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
+        <Button
+          type="submit"
+          variant="contained"
+          fullWidth
+          sx={{ mt: 2 }}
+          disabled={isSubmitting}
+        >
           הרשמה
         </Button>
       </Box>

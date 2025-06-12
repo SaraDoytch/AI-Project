@@ -1,4 +1,8 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginSchema } from "../schemas/AuthSchemas";
+import { z } from "zod";
 import {
   TextField,
   Button,
@@ -9,28 +13,25 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
-interface LoginFormData {
-  email: string;
-  password: string;
-}
+type LoginFormData = z.infer<typeof LoginSchema>;
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState<LoginFormData>({
-    email: "",
-    password: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(LoginSchema),
   });
-  const [error, setError] = useState<string>("");
-  const [success, setSuccess] = useState<string>("");
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const [error, setError] = React.useState<string>("");
+  const [success, setSuccess] = React.useState<string>("");
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: LoginFormData) => {
     setError("");
     setSuccess("");
     try {
-      const res = await axios.post("http://localhost:8000/auth/login", formData);
+      const res = await axios.post("http://localhost:8000/auth/login", data);
       setSuccess("התחברת בהצלחה!");
       // localStorage.setItem("token", res.data.token);
     } catch (err: any) {
@@ -46,28 +47,34 @@ const LoginForm = () => {
       {error && <Alert severity="error">{error}</Alert>}
       {success && <Alert severity="success">{success}</Alert>}
 
-      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+      <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 2 }}>
         <TextField
           label="אימייל"
-          name="email"
-          type="email"
+          {...register("email")}
+          error={!!errors.email}
+          helperText={errors.email?.message}
           fullWidth
           required
           margin="normal"
-          value={formData.email}
-          onChange={handleChange}
+          type="email"
         />
         <TextField
           label="סיסמה"
-          name="password"
-          type="password"
+          {...register("password")}
+          error={!!errors.password}
+          helperText={errors.password?.message}
           fullWidth
           required
           margin="normal"
-          value={formData.password}
-          onChange={handleChange}
+          type="password"
         />
-        <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
+        <Button
+          type="submit"
+          variant="contained"
+          fullWidth
+          sx={{ mt: 2 }}
+          disabled={isSubmitting}
+        >
           התחבר
         </Button>
       </Box>
