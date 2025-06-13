@@ -2,9 +2,9 @@
 
 from mongoengine import Document, StringField, ReferenceField, DateTimeField
 from datetime import datetime
-from models.user import User
+from models.User import User
 from models.category import Category
-from models.subcategory import SubCategory  # נניח שגם זה קיים
+from models.Subcategory import SubCategory  # נניח שגם זה קיים
 
 class Prompt(Document):
     user_id = ReferenceField(User, required=True)
