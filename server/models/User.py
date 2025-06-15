@@ -10,13 +10,20 @@ class User(Document):
     phone = StringField(required=True)
     email = EmailField(required=True, unique=True)  
     password = StringField(required=True)  # hashed password
-
+    role = StringField(default="user")  # "admin" למנהלים
     created_at = DateTimeField(default=datetime.utcnow)
     updated_at = DateTimeField(default=datetime.utcnow)
 
     meta = {
         'collection': 'users',
-        'indexes': ['phone'],
+        # 'indexes': ['phone'],
+        'indexes': [
+    {
+        'fields': ['phone'],
+        'unique': True,
+        'name': 'unique_phone_index'
+    }
+],
         'ordering': ['-created_at'],
         'auto_create_index': True
     }

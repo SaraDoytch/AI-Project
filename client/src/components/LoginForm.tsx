@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema } from "../schemas/AuthSchemas";
@@ -12,28 +12,44 @@ import {
   Alert,
 } from "@mui/material";
 import axios from "axios";
+import { login } from '../stores/Slices/authSlice';
+import { UserSchema } from "../interfaces/Interface"
+import { useLoginMutation } from "../stores/Slices/UserApiSlice";
+import { useNavigate } from "react-router";
+import { useCookies } from "react-cookie";
+import { useDispatch } from "react-redux";
 
-type LoginFormData = z.infer<typeof LoginSchema>;
 
 const LoginForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormData>({
+  } = useForm<UserSchema>({
     resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
+  const [Login] = useLoginMutation();
+  const navigate = useNavigate();
+  const [, setCookie] = useCookies(['token']);
+  const [error, setError] = useState<string>("");
+  const dispatch = useDispatch();
+  const [success, setSuccess] = useState<string>("");
 
-  const [error, setError] = React.useState<string>("");
-  const [success, setSuccess] = React.useState<string>("");
-
-  const onSubmit = async (data: LoginFormData) => {
+  const onSubmit = async (data: UserSchema) => {
     setError("");
     setSuccess("");
     try {
-      const res = await axios.post("http://localhost:8000/auth/login", data);
+      const result = await Login(data).unwrap();
+      setCookie('token', result.accessToken, { path: '/', maxAge: 3600 * 24 * 7 });
+      localStorage.setItem("currentUser", JSON.stringify(result.user));
+      dispatch(login(result.user));
+      navigate('/');
+
       setSuccess("התחברת בהצלחה!");
-      // localStorage.setItem("token", res.data.token);
     } catch (err: any) {
       setError(err.response?.data?.detail || "שגיאה בהתחברות");
     }
@@ -46,38 +62,40 @@ const LoginForm = () => {
       </Typography>
       {error && <Alert severity="error">{error}</Alert>}
       {success && <Alert severity="success">{success}</Alert>}
-
-      <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 2 }}>
-        <TextField
-          label="אימייל"
-          {...register("email")}
-          error={!!errors.email}
-          helperText={errors.email?.message}
-          fullWidth
-          required
-          margin="normal"
-          type="email"
-        />
-        <TextField
-          label="סיסמה"
-          {...register("password")}
-          error={!!errors.password}
-          helperText={errors.password?.message}
-          fullWidth
-          required
-          margin="normal"
-          type="password"
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          fullWidth
-          sx={{ mt: 2 }}
-          disabled={isSubmitting}
-        >
-          התחבר
-        </Button>
-      </Box>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <Box  sx={{ mt: 2 }}>
+          {/* component="form" */}
+          <TextField
+            label="אימייל"
+            {...register("email")}
+            error={!!errors.email}
+            helperText={errors.email?.message}
+            fullWidth
+            required
+            margin="normal"
+            type="email"
+          />
+          <TextField
+            label="סיסמה"
+            {...register("password")}
+            error={!!errors.password}
+            helperText={errors.password?.message}
+            fullWidth
+            required
+            margin="normal"
+            type="password"
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            sx={{ mt: 2 }}
+            disabled={isSubmitting}
+          >
+            התחבר
+          </Button>
+        </Box>
+      </form>
     </Container>
   );
 };

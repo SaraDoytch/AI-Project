@@ -1,26 +1,15 @@
- # routes/auth_route.py
 
-from flask import Blueprint, request, jsonify
-from pymongo import MongoClient
-from bson.objectid import ObjectId
+
+from flask import request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
+from models.User import User
 import jwt
 import os
-from dotenv import load_dotenv
-from datetime import datetime, timedelta
+from datetime import datetime
+from mongoengine.errors import NotUniqueError
 
-load_dotenv()
-auth_route = Blueprint("auth", __name__)
+SECRET_KEY = os.getenv("ACCESS_TOKEN_SECRET", "dev-secret")
 
- # התחברות למסד הנתונים (בהנחה שנעשה כבר ב-app.py)
-client = MongoClient(os.getenv("MONGO_URI"))
-db = client.get_default_database()
-users_collection = db["users"]
-
-SECRET_KEY = os.getenv("ACCESS_TOKEN_SECRET", "dev-secret")  # שימי לב לוודא שזה קיים
-
- # 🟢 LOGIN
-@auth_route.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
     email = data.get("email")
@@ -29,76 +18,117 @@ def login():
     if not email or not password:
         return jsonify({"message": "All fields are required"}), 400
 
-    user = users_collection.find_one({"email": email})
+    user = User.objects(email=email).first()
     if not user:
-        return jsonify({"message": "Unauthorized1"}), 401
+        return jsonify({"message": "Unauthorized - user not found"}), 401
 
-    if not check_password_hash(user["password"], password):
-        return jsonify({"error": "Unauthorized2"}), 401
+    if not check_password_hash(user.password, password):
+        return jsonify({"message": "Unauthorized - wrong password"}), 401
 
     user_info = {
-        "_id": str(user["_id"]),
-        "userName": user["userName"],
-        "phone": user["phone"],
-        "email": user["email"],
-        "hasCar": user.get("hasCar"),
-        "driveringLicense": user.get("driveringLicense"),
-        "gender": user["gender"],
-        "driverSuggestions": user.get("driverSuggestions", []),
-        "passengerSuggestions": user.get("passengerSuggestions", []),
-        "createdAt": user.get("createdAt")
+        "id": str(user.id),
+        "firstName": user.firstName,
+        "lastName": user.lastName,
+        "email": user.email,
+        "phone": user.phone,
+        "created_at": str(user.created_at)
     }
 
     token = jwt.encode(user_info, SECRET_KEY, algorithm="HS256")
     return jsonify({"user": user_info, "accessToken": token}), 200
 
- # 🟡 REGISTER
-@auth_route.route("/register", methods=["POST"])
+
+
+# def register():
+#     try:
+#         data = request.get_json()
+#         print("📥 Received data:", data)
+
+#         firstName = data.get("firstName")
+#         lastName = data.get("lastName")
+#         phone = data.get("phone")
+#         email = data.get("email")
+#         password = data.get("password")
+
+#         if not firstName or not lastName or not phone or not email or not password:
+#             return jsonify({"message": "All fields are required!"}), 400
+
+#         hashed_password = generate_password_hash(password)
+#         user = User(
+#             firstName=firstName,
+#             lastName=lastName,
+#             phone=phone,
+#             email=email,
+#             password=hashed_password
+#         )
+#         user.save()
+
+#         user_info = {
+#             "id": str(user.id),
+#             "firstName": firstName,
+#             "lastName": lastName,
+#             "phone": phone,
+#             "email": email,
+#             "created_at": str(user.created_at)
+#         }
+
+#         token = jwt.encode(user_info, SECRET_KEY, algorithm="HS256")
+#         return jsonify({"accessToken": token, "user": user_info}), 201
+
+#     except NotUniqueError:
+#         return jsonify({"message": "Email already exists"}), 409
+
+#     except Exception as e:
+#         print("🔥 Exception during registration:", e)
+#         return jsonify({"message": "Internal server error", "error": str(e)}), 500
+
+
+#     # token = jwt.encode(user_info, SECRET_KEY, algorithm="HS256")
+#     # return jsonify({"accessToken": token, "user": user_info}), 201
+
+
 def register():
-    data = request.get_json()
-    userName = data.get("userName")
-    phone = data.get("phone")
-    email = data.get("email")
-    password = data.get("password")
-    hasCar = data.get("hasCar")
-    gender = data.get("gender")
-    driveringLicense = data.get("driveringLicense")
+    try:
+        data = request.get_json()
+        print("📥 Received data:", data)
 
-    if not userName or not phone or not email or not password or not gender:
-        return jsonify({"message": "All fields are required!"}), 400
+        firstName = data.get("firstName")
+        lastName = data.get("lastName")
+        phone = data.get("phone")
+        email = data.get("email")
+        password = data.get("password")
+        role = data.get("role", "user")  # מקבל את ה-role, או 'user' כברירת מחדל
 
-    if hasCar and not driveringLicense:
-        return jsonify({"message": "מספר רישיון נדרש כאשר יש רכב"}), 400
+        if not firstName or not lastName or not phone or not email or not password:
+            return jsonify({"message": "All fields are required!"}), 400
 
-    if users_collection.find_one({"email": email}):
-        return jsonify({"message": "duplicate email"}), 409
+        hashed_password = generate_password_hash(password)
+        user = User(
+            firstName=firstName,
+            lastName=lastName,
+            phone=phone,
+            email=email,
+            password=hashed_password,
+            role=role
+        )
+        user.save()
 
-    hashed_password = generate_password_hash(password)
+        user_info = {
+            "id": str(user.id),
+            "firstName": firstName,
+            "lastName": lastName,
+            "phone": phone,
+            "email": email,
+            "role": role,
+            "created_at": str(user.created_at)
+        }
 
-    user_object = {
-        "userName": userName,
-        "phone": phone,
-        "email": email,
-        "password": hashed_password,
-        "hasCar": hasCar,
-        "gender": gender,
-        "driveringLicense": driveringLicense if hasCar else None,
-        "createdAt": datetime.utcnow()
-    }
+        token = jwt.encode(user_info, SECRET_KEY, algorithm="HS256")
+        return jsonify({"accessToken": token, "user": user_info}), 201
 
-    result = users_collection.insert_one(user_object)
-    if not result.inserted_id:
-        return jsonify({"message": "invalid user received"}), 400
+    except NotUniqueError:
+        return jsonify({"message": "Email already exists"}), 409
 
-    user_info = {
-        "_id": str(result.inserted_id),
-        "userName": userName,
-        "email": email,
-        "phone": phone,
-        "hasCar": hasCar,
-        "gender": gender,
-        "driveringLicense": driveringLicense if hasCar else None
-    }
-
-    token = jwt.encode(user_info, SECRET_KEY, algorithm="HS256")
-    return jsonify({"accessToken": token, "user": user_info}), 201
+    except Exception as e:
+        print("🔥 Exception during registration:", e)
+        return jsonify({"message": "Internal server error", "error": str(e)}), 500
