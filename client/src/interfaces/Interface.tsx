@@ -7,6 +7,8 @@ export interface User {
   created_at?: string;
   updated_at?: string; 
   _id?: string; 
+  role?: "admin" | "user"; // << זה חדש
+
 }
 
 export interface UserSchema {

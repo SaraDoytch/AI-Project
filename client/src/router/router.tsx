@@ -6,6 +6,7 @@ import About from '../components/About';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
 import Learning from '../components/Learning';
+import AdminCategoryManager from '../components/AdminCategoryManager';
 
 const router = createBrowserRouter([
 {
@@ -14,11 +15,11 @@ element: <AppLayout />,
 children: [
 { path: '/', element: <Home /> },
 { path: '/about', element: <About /> },
-   {
-        path: "loginForm", element: <LoginForm />,
-      },
-      { path: "loginIn", element: <RegisterForm /> },
-      { path: "Learning", element: <Learning /> },
+{path: "loginForm", element: <LoginForm />,},
+{ path: "loginIn", element: <RegisterForm /> },
+{ path: "Learning/:id", element: <Learning /> },
+{path:"admin", element :<AdminCategoryManager/>},
+    
 
 ],
 },

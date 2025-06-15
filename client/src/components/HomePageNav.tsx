@@ -131,7 +131,14 @@ const HomePageNav = () => {
             התנתק
           </button>
           <ProfileAvatar name={currentUser.firstName || "?"} />
-
+{/* {currentUser?.role === "admin" && ( */}
+  <NavLink to="/admin" style={({ isActive }) => ({
+    color: isActive ? '#004ba0' : '#333',
+    fontWeight: isActive ? '700' : '400',
+  })}>
+    ניהול מערכת
+  </NavLink>
+{/* )} */}
         </div>
       ) : (
         <>
