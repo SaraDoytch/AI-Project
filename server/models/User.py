@@ -16,7 +16,14 @@ class User(Document):
 
     meta = {
         'collection': 'users',
-        'indexes': ['phone'],
+        # 'indexes': ['phone'],
+        'indexes': [
+    {
+        'fields': ['phone'],
+        'unique': True,
+        'name': 'unique_phone_index'
+    }
+],
         'ordering': ['-created_at'],
         'auto_create_index': True
     }
