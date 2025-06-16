@@ -1,4 +1,3 @@
-import React from 'react';
 import { useGetUsersWithPromptsQuery } from '../stores/Slices/adminApiSlice';
 
 const AdminUsersWithPrompts = () => {

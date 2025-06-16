@@ -7,7 +7,7 @@ from services.openai_service import get_lesson_from_ai
 from mongoengine import DoesNotExist
 from flask import request
 from mongoengine.errors import DoesNotExist
-
+import traceback
 
 
 
@@ -50,25 +50,61 @@ def generate_lesson_controller():
 
 
 
+# def serialize_prompt(prompt):
+#     return {
+#         "id": str(prompt.id),
+#         "user_id": str(prompt.user_id.id),
+#         "user_name": f"{prompt.user_id.firstName} {prompt.user_id.lastName}" if prompt.user_id else "",
+#         "category_id": str(prompt.category_id.id) if prompt.category_id else None,
+#         "category_name": prompt.category_id.name if prompt.category_id else "",
+#         "sub_category_id": str(prompt.sub_category_id.id) if prompt.sub_category_id else None,
+#         "sub_category_name": prompt.sub_category_id.name if prompt.sub_category_id else "",
+#         "prompt": prompt.prompt,
+#         "response": prompt.response,
+#         "created_at": prompt.created_at.isoformat(),
+#     }
 def serialize_prompt(prompt):
+    try:
+        category_id = str(prompt.category_id.id)
+        category_name = prompt.category_id.name
+    except Exception:
+        category_id = None
+        category_name = ""
+
+    try:
+        sub_category_id = str(prompt.sub_category_id.id)
+        sub_category_name = prompt.sub_category_id.name
+    except Exception:
+        sub_category_id = None
+        sub_category_name = ""
+
+    try:
+        user_id = str(prompt.user_id.id)
+        user_name = f"{prompt.user_id.firstName} {prompt.user_id.lastName}"
+    except Exception:
+        user_id = None
+        user_name = ""
+
     return {
         "id": str(prompt.id),
-        "user_id": str(prompt.user_id.id),
-        "user_name": f"{prompt.user_id.firstName} {prompt.user_id.lastName}" if prompt.user_id else "",
-        "category_id": str(prompt.category_id.id),
-        "category_name": prompt.category_id.name if prompt.category_id else "",
-        "sub_category_id": str(prompt.sub_category_id.id) if prompt.sub_category_id else None,
-        "sub_category_name": prompt.sub_category_id.name if prompt.sub_category_id else "",
+        "user_id": user_id,
+        "user_name": user_name,
+        "category_id": category_id,
+        "category_name": category_name,
+        "sub_category_id": sub_category_id,
+        "sub_category_name": sub_category_name,
         "prompt": prompt.prompt,
         "response": prompt.response,
         "created_at": prompt.created_at.isoformat(),
     }
+
 
 def get_all_prompts():
     try:
         prompts = Prompt.objects().select_related()
         return [serialize_prompt(p) for p in prompts], 200
     except Exception as e:
+        traceback.print_exc()
         return {"error": str(e)}, 500
 
 def get_prompts_by_user(user_id):

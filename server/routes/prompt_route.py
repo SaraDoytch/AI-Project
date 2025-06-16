@@ -1,5 +1,6 @@
 from flask import Blueprint, request,jsonify
 from controllers.prompt_controller import generate_lesson_controller,get_all_prompts, get_prompts_by_user,delete_prompt
+from models.Prompt import Prompt
 
 prompt_bp = Blueprint('prompts', __name__)
 

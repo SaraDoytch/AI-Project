@@ -1,5 +1,4 @@
 
-import React from "react";
 import {
   Typography,
   Button,
@@ -21,8 +20,8 @@ const getGreeting = () => {
 const Home = () => {
   const navigate = useNavigate();
 
-  const { data: categories = [], isLoading, isError } = useGetCategoriesQuery();
-
+  const {  isLoading, isError } = useGetCategoriesQuery();
+// data: categories = [],
   const handleStartPromptClick = () => {
     navigate("/instructions");
   };

@@ -1,5 +1,9 @@
-Flask
 mongoengine
 python-dotenv
 bcrypt
 PyJWT
+flask
+flask_cors
+pymongo
+Flask
+httpx

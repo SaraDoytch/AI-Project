@@ -16,7 +16,11 @@ import { useLoginMutation } from "../stores/Slices/UserApiSlice";
 import { useNavigate } from "react-router";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
-
+import {
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const LoginForm = () => {
   const {
@@ -53,7 +57,8 @@ const LoginForm = () => {
       setError(err.response?.data?.detail || "שגיאה בהתחברות");
     }
   };
-
+const [showPassword, setShowPassword] = useState(false);
+const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
   return (
     <Container maxWidth="sm">
       <Typography variant="h4" gutterBottom>
@@ -74,7 +79,7 @@ const LoginForm = () => {
             margin="normal"
             type="email"
           />
-          <TextField
+          {/* <TextField
             label="סיסמה"
             {...register("password")}
             error={!!errors.password}
@@ -83,7 +88,26 @@ const LoginForm = () => {
             required
             margin="normal"
             type="password"
-          />
+          /> */}
+          <TextField
+  label="סיסמה"
+  {...register("password")}
+  error={!!errors.password}
+  helperText={errors.password?.message}
+  fullWidth
+  required
+  margin="normal"
+  type={showPassword ? "text" : "password"}
+  InputProps={{
+    endAdornment: (
+      <InputAdornment position="end">
+        <IconButton onClick={togglePasswordVisibility} edge="end">
+          {showPassword ? <VisibilityOff /> : <Visibility />}
+        </IconButton>
+      </InputAdornment>
+    ),
+  }}
+/>
           <Button
             type="submit"
             variant="contained"

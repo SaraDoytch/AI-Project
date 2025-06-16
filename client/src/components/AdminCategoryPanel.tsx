@@ -77,8 +77,8 @@ const AdminCategoryPanel = () => {
               <Stack direction="row" justifyContent="space-between" alignItems="center">
                 <Typography variant="h6">{cat.name}</Typography>
                 <Stack direction="row">
-                  <IconButton onClick={() => handleOpenEdit(cat.id, "cat", cat.name)}><Edit /></IconButton>
-                  <IconButton color="error" onClick={() => handleDelete(cat.id, "cat")}><Delete /></IconButton>
+                  <IconButton onClick={() => handleOpenEdit(cat.id!, "cat", cat.name)}><Edit /></IconButton>
+                  <IconButton color="error" onClick={() => handleDelete(cat.id!, "cat")}><Delete /></IconButton>
                 </Stack>
               </Stack>
 
