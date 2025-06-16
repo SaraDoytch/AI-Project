@@ -42,52 +42,7 @@ def add_subCategory():
 
 
 
-# def get_subCategoriesById(category_id):
-#     try:
-#         # בדיקה אם הקטגוריה קיימת
-#         category = Category.objects(id=category_id).first()
-#         if not category:
-#             return jsonify({"error": "Category not found"}), 404
-        
-#         # שליפת תת הקטגוריות לפי קטגוריה
-#         subcategories = Subcategory.objects(category=category)  # בהנחה שיש שדה category ב-Subcategory
-        
-#         # המרת תת הקטגוריות למבנה JSON
-#         result = []
-#         for sub in subcategories:
-#             result.append({
-#                 "id": str(sub.id),
-#                 "name": sub.name,
-#             })
-        
-#         return jsonify(result), 200
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
 
-# def get_categories():
-#     categories = Category.objects()
-#     return jsonify([
-#         {'id': str(cat.id), 'name': cat.name}
-#         for cat in categories
-#     ]), 200
-
-# def get_subcategories_by_category_id(category_id):
-#     try:
-#         category = Category.objects(id=category_id).first()
-#         if not category:
-#             return jsonify({'error': 'Category not found'}), 404
-
-#         subcategories = SubCategory.objects(category_id=category)
-#         return jsonify([
-#             {
-#                 "_id": str(sub.id),
-#                 "name": sub.name,
-#                 "category_id": str(sub.category_id.id)
-#             } for sub in subcategories
-#         ]), 200
-
-#     except Exception as e:
-#         return jsonify({'error': str(e)}), 500
 def get_subCategoriesById(category_id):
     try:
         category = Category.objects(id=category_id).first()
@@ -104,3 +59,14 @@ def get_subCategoriesById(category_id):
         ])
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+def get_category_by_id(id):
+    try:
+        category = Category.objects(id=id).first()
+        if not category:
+            return jsonify({'message': 'Category not found'}), 404
+        return jsonify({'_id': str(category.id), 'name': category.name})
+    except Exception as e:
+        print('Error fetching category:', e)
+        return jsonify({'message': 'Server error'}), 500

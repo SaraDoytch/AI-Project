@@ -8,7 +8,7 @@ const promptApiSlice = apiSlice.injectEndpoints({
     // יצירת פנייה ל-AI ושמירת שיעור
     createPrompt: builder.mutation<Prompt, Partial<Prompt>>({
       query: (promptData) => ({
-        url: "api/prompt",
+        url: "api/prompt/generate",
         method: "POST",
         body: promptData,
       }),

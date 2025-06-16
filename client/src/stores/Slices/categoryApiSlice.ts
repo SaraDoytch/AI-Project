@@ -1,4 +1,4 @@
-// src/features/Category/categoryApiSlice.ts
+// src/features/Category/category.ts
 
 import apiSlice from "../Slices/ApiSlice";
 import { Category, SubCategory } from "../../interfaces/Interface";
@@ -22,7 +22,11 @@ const categoryApiSlice = apiSlice.injectEndpoints({
       query: () => "api/categories/getCategories",
       providesTags: ["Category"],
     }),
-
+// שליפת קטגוריה לפי ID
+getCategoryById: builder.query<Category, string>({
+  query: (id) => `api/categories/${id}`,
+  providesTags: (result, error, id) => [{ type: "Category", id }],
+}),
     // עדכון קטגוריה
     updateCategory: builder.mutation<Category, { id: string; updated: Partial<Category> }>({
       query: ({ id, updated }) => ({
@@ -88,6 +92,7 @@ export const {
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
   useCreateSubCategoryMutation,
+  useGetCategoryByIdQuery,
   useGetSubCategoriesByCategoryQuery,
   useUpdateSubCategoryMutation,
   useDeleteSubCategoryMutation,
