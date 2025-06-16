@@ -1,8 +1,6 @@
 import React from "react";
 
-interface ProfileAvatarProps {
-  name: string;
-}
+import { ProfileAvatarProps } from "../interfaces/Interface"
 
 const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ name }) => {
   const firstLetter = name?.charAt(0).toUpperCase() || "?";

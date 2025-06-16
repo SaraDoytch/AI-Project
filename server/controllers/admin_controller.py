@@ -10,7 +10,7 @@ def get_users_with_prompts_controller():
         users = User.objects()
         data = []
         for user in users:
-            prompts = Prompt.objects(user_id=user).order_by('-created_at')  # ← תיקון כאן
+            prompts = Prompt.objects(user_id=user).order_by('-created_at')  
             data.append({
                 'id': str(user.id),
                 'firstName': user.firstName,
@@ -19,7 +19,7 @@ def get_users_with_prompts_controller():
                 'prompts': [
                     {
                         'id': str(prompt.id),
-                        'title': prompt.prompt[:30],  # אם אין title – אפשר לחלץ התחלה של הטקסט
+                        'title': prompt.prompt[:30],  
                         'created_at': prompt.created_at.isoformat()
                     } for prompt in prompts
                 ]

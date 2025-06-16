@@ -1,6 +1,5 @@
 // src/features/Admin/adminApiSlice.ts
-import apiSlice from '../Slices/ApiSlice';  // הנחה שיש לך כבר apiSlice בסיסי
-
+import apiSlice from '../Slices/ApiSlice'; 
 export const adminApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getUsersWithPrompts: builder.query<

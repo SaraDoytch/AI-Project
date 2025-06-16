@@ -1,4 +1,3 @@
- # middlewares/verify_jwt.py
 
 from functools import wraps
 from flask import request, jsonify

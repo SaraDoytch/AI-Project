@@ -8,8 +8,6 @@ def add_category():
     data = request.get_json()
     name = data.get('name', '').strip()
 
-    # name = data.get('name')
-
     if not name:
         return jsonify({'error': 'Name is required'}), 400
 

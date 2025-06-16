@@ -1,6 +1,4 @@
 
-
-
  # config/cors_options.py
 
 allowed_origins = [

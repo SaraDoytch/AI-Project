@@ -1,219 +1,109 @@
-// import React, { useEffect, useState } from "react";
-// import {
-//   Container,
-//   Typography,
-//   List,
-//   ListItem,
-//   ListItemText,
-//   Divider,
-//   Paper,
-//   Button,
-//   CircularProgress,
-//   Box,
-// } from "@mui/material";
-// import { useSelector } from "react-redux";
-// import { useNavigate } from "react-router-dom";
 
-// // נניח שיש API שזמין דרך RTK Query או fetch רגיל להורדת השיעורים לפי משתמש
-// import { useGetUserLessonsQuery } from "../stores/Slices/lessonApiSlice"; // דוגמה, צריך לממש בשרת/RTK
 
-// const MyLessons = () => {
-//   const user = useSelector((state: any) => state.auth.currentUser);
-//   const navigate = useNavigate();
-
-//   // API call לקבלת השיעורים של המשתמש
-//   // נניח ש-useGetUserLessonsQuery מקבל userId ומחזיר את רשימת השיעורים
-//   const {
-//     data: lessons = [],
-//     isLoading,
-//     isError,
-//   } = useGetUserLessonsQuery(user?.id, {
-//     skip: !user?.id,
-//   });
-
-//   const [selectedLesson, setSelectedLesson] = useState(null);
-
-//   if (!user) {
-//     return (
-//       <Container sx={{ mt: 4, direction: "rtl" }}>
-//         <Typography variant="h6" color="error" gutterBottom>
-//           עליך להיות מחובר כדי לצפות בשיעורים שלך.
-//         </Typography>
-//         <Button variant="contained" onClick={() => navigate("/login")}>
-//           התחבר/י עכשיו
-//         </Button>
-//       </Container>
-//     );
-//   }
-
-//   return (
-//     <Container maxWidth="md" sx={{ mt: 4, direction: "rtl" }}>
-//       <Typography variant="h4" gutterBottom>
-//         השיעורים שלי
-//       </Typography>
-
-//       {isLoading && (
-//         <Box display="flex" justifyContent="center" mt={4}>
-//           <CircularProgress />
-//         </Box>
-//       )}
-
-//       {isError && (
-//         <Typography color="error" align="center">
-//           אירעה שגיאה בטעינת השיעורים.
-//         </Typography>
-//       )}
-
-//       {!isLoading && lessons.length === 0 && (
-//         <Typography align="center">לא נמצאו שיעורים שיצרת.</Typography>
-//       )}
-
-//       <List>
-//         {lessons.map((lesson: any) => (
-//           <React.Fragment key={lesson._id}>
-//             <ListItem
-//               button
-//               onClick={() => setSelectedLesson(lesson)}
-//               sx={{ cursor: "pointer" }}
-//             >
-//               <ListItemText
-//                 primary={lesson.title || "שיעור ללא כותרת"}
-//                 secondary={`קטגוריה: ${lesson.categoryName || "לא זמין"}`}
-//               />
-//             </ListItem>
-//             <Divider />
-//           </React.Fragment>
-//         ))}
-//       </List>
-
-//       {/* תצוגת פרטי השיעור שנבחר */}
-//       {selectedLesson && (
-//         <Paper sx={{ p: 3, mt: 3, backgroundColor: "#f9f9f9" }} elevation={3}>
-//           <Typography variant="h6" gutterBottom>
-//             {selectedLesson.title || "שיעור ללא כותרת"}
-//           </Typography>
-//           <Typography variant="body1" sx={{ whiteSpace: "pre-line" }}>
-//             {selectedLesson.content || "אין תוכן לשיעור זה."}
-//           </Typography>
-//           <Button sx={{ mt: 2 }} onClick={() => setSelectedLesson(null)}>
-//             סגור
-//           </Button>
-//         </Paper>
-//       )}
-
-//       <Button sx={{ mt: 4 }} variant="outlined" onClick={() => navigate(-1)}>
-//         חזור
-//       </Button>
-//     </Container>
-//   );
-// };
-
-// export default MyLessons;
-
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
-  Container,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
-  Paper,
-  Button,
-  CircularProgress,
-  Box,
+    Container,
+    Typography,
+    List,
+    ListItem,
+    ListItemText,
+    Divider,
+    Paper,
+    Button,
+    CircularProgress,
+    Box,
 } from "@mui/material";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import { useGetPromptsByUserQuery } from "../stores/Slices/promptApiSlice";
 
 const MyLessons = () => {
-  const user = useSelector((state: any) => state.auth.currentUser);
-  const navigate = useNavigate();
+    const user = useSelector((state: any) => state.auth.currentUser);
+    const navigate = useNavigate();
 
-  const {
-    data: lessons = [],
-    isLoading,
-    isError,
-  } = useGetPromptsByUserQuery(user?.id, {
-    skip: !user?.id,
-  });
+    const {
+        data: lessons = [],
+        isLoading,
+        isError,
+    } = useGetPromptsByUserQuery(user?.id, {
+        skip: !user?.id,
+    });
 
-  const [selectedLesson, setSelectedLesson] = useState(null);
+    const [selectedLesson, setSelectedLesson] = useState(null);
 
-  if (!user) {
+    if (!user) {
+        return (
+            <Container sx={{ mt: 4, direction: "rtl" }}>
+                <Typography variant="h6" color="error" gutterBottom>
+                    עליך להיות מחובר כדי לצפות בשיעורים שלך.
+                </Typography>
+                <Button variant="contained" onClick={() => navigate("/loginIn")}>
+                    התחבר/י עכשיו
+                </Button>
+            </Container>
+        );
+    }
+
     return (
-      <Container sx={{ mt: 4, direction: "rtl" }}>
-        <Typography variant="h6" color="error" gutterBottom>
-          עליך להיות מחובר כדי לצפות בשיעורים שלך.
-        </Typography>
-        <Button variant="contained" onClick={() => navigate("/loginIn")}>
-          התחבר/י עכשיו
-        </Button>
-      </Container>
+        <Container maxWidth="md" sx={{ mt: 4, direction: "rtl" }}>
+            <Typography variant="h4" gutterBottom>
+                השיעורים שלי
+            </Typography>
+
+            {isLoading && (
+                <Box display="flex" justifyContent="center" mt={4}>
+                    <CircularProgress />
+                </Box>
+            )}
+
+            {isError && (
+                <Typography color="error" align="center">
+                    אירעה שגיאה בטעינת השיעורים.
+                </Typography>
+            )}
+
+            {!isLoading && lessons.length === 0 && (
+                <Typography align="center">לא נמצאו שיעורים שיצרת.</Typography>
+            )}
+
+            <List>
+                {lessons.map((lesson: any) => (
+                    <React.Fragment key={lesson.id}>
+                        <ListItem
+                            button
+                            onClick={() => setSelectedLesson(lesson)}
+                            sx={{ cursor: "pointer" }}
+                        >
+                            <ListItemText
+                                primary={lesson.prompt.slice(0, 40) + "..."}
+                                secondary={`קטגוריה: ${lesson.category_name || "לא זמין"}`}
+                            />
+                        </ListItem>
+                        <Divider />
+                    </React.Fragment>
+                ))}
+            </List>
+
+            {selectedLesson && (
+                <Paper sx={{ p: 3, mt: 3, backgroundColor: "#f9f9f9" }} elevation={3}>
+                    <Typography variant="h6" gutterBottom>
+                        {selectedLesson.prompt}
+                    </Typography>
+                    <Typography variant="body1" sx={{ whiteSpace: "pre-line" }}>
+                        {selectedLesson.response}
+                    </Typography>
+                    <Button sx={{ mt: 2 }} onClick={() => setSelectedLesson(null)}>
+                        סגור
+                    </Button>
+                </Paper>
+            )}
+
+            <Button sx={{ mt: 4 }} variant="outlined" onClick={() => navigate(-1)}>
+                חזור
+            </Button>
+        </Container>
     );
-  }
-
-  return (
-    <Container maxWidth="md" sx={{ mt: 4, direction: "rtl" }}>
-      <Typography variant="h4" gutterBottom>
-        השיעורים שלי
-      </Typography>
-
-      {isLoading && (
-        <Box display="flex" justifyContent="center" mt={4}>
-          <CircularProgress />
-        </Box>
-      )}
-
-      {isError && (
-        <Typography color="error" align="center">
-          אירעה שגיאה בטעינת השיעורים.
-        </Typography>
-      )}
-
-      {!isLoading && lessons.length === 0 && (
-        <Typography align="center">לא נמצאו שיעורים שיצרת.</Typography>
-      )}
-
-      <List>
-        {lessons.map((lesson: any) => (
-          <React.Fragment key={lesson.id}>
-            <ListItem
-              button
-              onClick={() => setSelectedLesson(lesson)}
-              sx={{ cursor: "pointer" }}
-            >
-              <ListItemText
-                primary={lesson.prompt.slice(0, 40) + "..."}
-                secondary={`קטגוריה: ${lesson.category_name || "לא זמין"}`}
-              />
-            </ListItem>
-            <Divider />
-          </React.Fragment>
-        ))}
-      </List>
-
-      {selectedLesson && (
-        <Paper sx={{ p: 3, mt: 3, backgroundColor: "#f9f9f9" }} elevation={3}>
-          <Typography variant="h6" gutterBottom>
-            {selectedLesson.prompt}
-          </Typography>
-          <Typography variant="body1" sx={{ whiteSpace: "pre-line" }}>
-            {selectedLesson.response}
-          </Typography>
-          <Button sx={{ mt: 2 }} onClick={() => setSelectedLesson(null)}>
-            סגור
-          </Button>
-        </Paper>
-      )}
-
-      <Button sx={{ mt: 4 }} variant="outlined" onClick={() => navigate(-1)}>
-        חזור
-      </Button>
-    </Container>
-  );
 };
 
 export default MyLessons;

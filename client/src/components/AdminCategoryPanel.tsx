@@ -1,6 +1,6 @@
 
 // src/components/AdminCategoryPanel.tsx
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box, Typography, Stack, IconButton, Button, Dialog, DialogTitle,
   DialogContent, DialogActions, TextField, Card, CardContent, Paper
@@ -14,8 +14,7 @@ import {
   useDeleteSubCategoryMutation,
 } from "../stores/Slices/categoryApiSlice";
 import { useGetAllPromptsQuery } from "../stores/Slices/promptApiSlice";
-import { Category, SubCategory } from "../interfaces/Interface";
-import AdminUsersWithPrompts from "./AdminUsersWithPrompts";
+import { SubCategory } from "../interfaces/Interface";
 
 const AdminCategoryPanel = () => {
   const { data: categories = [], refetch } = useGetAllCategoriesWithSubsQuery();
@@ -45,17 +44,17 @@ const AdminCategoryPanel = () => {
   // };
 
   const handleDelete = async (id: string, type: "cat" | "sub") => {
-  console.log("Deleting", type, id);
-  if (!id) {
-    alert("לא ניתן למחוק: מזהה לא קיים");
-    return;
-  }
-  if (window.confirm("האם את/ה בטוח/ה שברצונך למחוק?")) {
-    if (type === "cat") await deleteCategory(id).unwrap();
-    else await deleteSubCategory(id).unwrap();
-    refetch();
-  }
-};
+    console.log("Deleting", type, id);
+    if (!id) {
+      alert("לא ניתן למחוק: מזהה לא קיים");
+      return;
+    }
+    if (window.confirm("האם את/ה בטוח/ה שברצונך למחוק?")) {
+      if (type === "cat") await deleteCategory(id).unwrap();
+      else await deleteSubCategory(id).unwrap();
+      refetch();
+    }
+  };
 
 
   const handleSaveEdit = async () => {

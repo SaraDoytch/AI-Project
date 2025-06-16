@@ -1,7 +1,6 @@
- # models/subcategory.py
 
 from mongoengine import Document, StringField, ReferenceField
-from models.Category import Category  # ודא שהמודול קיים ונטען נכון
+from models.Category import Category  
 
 class SubCategory(Document):
     name = StringField(required=True)

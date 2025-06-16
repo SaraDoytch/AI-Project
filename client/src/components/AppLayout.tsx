@@ -5,8 +5,8 @@ import HomePageNav from './HomePageNav';
 const AppLayout = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-     <HomePageNav />
-      <Outlet/>
+      <HomePageNav />
+      <Outlet />
     </div>
   );
 };

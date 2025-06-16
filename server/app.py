@@ -3,8 +3,7 @@ import os
 from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
-from mongoengine import connect  # השתמש ב-mongoengine במקום pymongo
-
+from mongoengine import connect  
 from routes.auth_route import auth_route  
 from config.cors_options import cors_options
 from routes.category_routes import category_bp
@@ -16,9 +15,7 @@ load_dotenv()
 
 # משתנים מהסביבה
 PORT = int(os.getenv("PORT", 7001))
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/Prompt")  # ודא שיש שם בסיס נתונים
-
-
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/Prompt")  
 
 # יצירת אפליקציה
 app = Flask(__name__)

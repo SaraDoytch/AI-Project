@@ -1,35 +1,9 @@
-// import React from "react";
-// import { Container, Typography, Button } from "@mui/material";
-// import { useNavigate } from "react-router-dom";
 
-// const Instructions = () => {
-//   const navigate = useNavigate();
-
-//   return (
-//     <Container maxWidth="md" sx={{ mt: 4, direction: "rtl" }}>
-//       <Typography variant="h4" gutterBottom>
-//         איך להשתמש באתר וליצור שיעורים
-//       </Typography>
-//       <Typography variant="body1" paragraph>
-//         ברוכים הבאים! כדי ליצור שיעור חדש, בחרו קטגוריה ותת קטגוריה, והזינו שאלה חופשית שתעזור למערכת ליצור שיעור מותאם.
-//       </Typography>
-//       <Typography variant="body1" paragraph>
-//         לאחר השליחה, תקבלו תגובת AI שתסביר ותלמד אתכם בנושא שבחרתם.
-//       </Typography>
-//       <Typography variant="body1" paragraph>
-//         ניתן גם לצפות בשיעורים שיצרתם בעבר וללמוד מהם שוב.
-//       </Typography>
-//       <Button variant="contained" onClick={() => navigate("/")}>
-//         חזור לדף הבית
-//       </Button>
-//     </Container>
-//   );
-// };
 
 // export default Instructions;
 import React from "react";
 import { Container, Typography, Button, List, ListItem, ListItemText, Box } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const Instructions = () => {
   const navigate = useNavigate();
