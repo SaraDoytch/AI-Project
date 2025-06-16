@@ -275,8 +275,9 @@ const selectedCategory = categories.find((cat) => cat._id === categoryId);
         sub_category_id: subCategoryId || undefined,
         prompt: question.trim() || "שאלה כללית על הנושא שנבחר",
       }).unwrap();
+      console.log("response from server:", result);
 
-      setResponse(result.response);
+      setResponse(result.lesson);
       setDialogOpen(true);
     } catch (error) {
       setResponse("אירעה שגיאה בעת יצירת השיעור.");
