@@ -6,8 +6,10 @@ import About from '../components/About';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
 import CreateLesson from '../components/CreateLesson';
-import AdminCategoryManager from '../components/AdminCategoryManager';
+import AdminDashboard from '../components/AdminDashboard';
 import AllLessons from '../components/AllLessons';
+import Instructions from '../components/Instructions';
+import MyLessons from '../components/MyLessons';
 
 const router = createBrowserRouter([
 {
@@ -19,7 +21,7 @@ children: [
 {path: "loginForm", element: <LoginForm />,},
 { path: "loginIn", element: <RegisterForm /> },
 
-{path:"admin", element :<AdminCategoryManager/>},
+{path:"admin", element :<AdminDashboard/>},
        {
         path: "AllLessons", 
         children: [
@@ -27,6 +29,9 @@ children: [
           { path: ":_id", element: <CreateLesson /> }
         ]
       },
+      {path:"/instructions" , element:<Instructions />},
+
+      {path:"/myLessons" , element:<MyLessons />}
 
 ],
 },

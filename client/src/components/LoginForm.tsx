@@ -48,6 +48,7 @@ const LoginForm = () => {
       localStorage.setItem("currentUser", JSON.stringify(result.user));
       dispatch(login(result.user));
       navigate('/');
+      console.log('currentUser:', result.user);
 
       setSuccess("התחברת בהצלחה!");
     } catch (err: any) {

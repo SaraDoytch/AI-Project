@@ -8,5 +8,11 @@ class SubCategory(Document):
     category_id = ReferenceField(Category, required=True)
 
     meta = {
-        'collection': 'subcategories'
+        'collection': 'subcategories',
+        'indexes': [
+            {
+                'fields': ['name', 'category_id'],
+                'unique': True
+            }
+        ]
     }

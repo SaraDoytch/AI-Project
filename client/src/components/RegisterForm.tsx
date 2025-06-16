@@ -290,6 +290,13 @@ const RegisterForm = () => {
         >
           הרשמה
         </Button>
+         {/* כפתור מעבר להתחברות */}
+        <Box textAlign="center" mt={2}>
+          <Typography variant="body2">כבר רשום?</Typography>
+          <Button variant="text" onClick={() => navigate("/loginForm")}>
+            התחבר
+          </Button>
+        </Box>
       </Box>
     </Container>
   );
