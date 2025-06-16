@@ -3,7 +3,7 @@
 import React from 'react';
 import { NavLink } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../stores/Store';  // הנתיב תלוי איפה אתה מגדיר את ה-root reducer
+import { RootState } from '../stores/Store';
 import { logout } from '../stores/Slices/authSlice';
 import ProfileAvatar from './ProfileAvatar';
 
@@ -52,20 +52,20 @@ const HomePageNav = () => {
       })}>
         עמוד הבית
       </NavLink>
-  <NavLink to="/myLessons" style={({ isActive }) => ({
+      <NavLink to="/myLessons" style={({ isActive }) => ({
         color: isActive ? '#004ba0' : '#333',
         fontWeight: isActive ? '700' : '400',
       })}>
-       השיעורים שלי      
-</NavLink>
-{currentUser?.role === "admin" && (
-  <NavLink to="/admin" style={({ isActive }) => ({
-    color: isActive ? '#004ba0' : '#333',
-    fontWeight: isActive ? '700' : '400',
-  })}>
-    ניהול מערכת
-  </NavLink>
-)}
+        השיעורים שלי
+      </NavLink>
+      {currentUser?.role === "admin" && (
+        <NavLink to="/admin" style={({ isActive }) => ({
+          color: isActive ? '#004ba0' : '#333',
+          fontWeight: isActive ? '700' : '400',
+        })}>
+          ניהול מערכת
+        </NavLink>
+      )}
 
       {currentUser ? (
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -82,14 +82,6 @@ const HomePageNav = () => {
             התנתק
           </button>
           <ProfileAvatar name={currentUser.firstName || "?"} />
-          {/* {currentUser?.role === "admin" && (
-  <NavLink to="/admin" style={({ isActive }) => ({
-    color: isActive ? '#004ba0' : '#333',
-    fontWeight: isActive ? '700' : '400',
-  })}>
-    ניהול מערכת
-  </NavLink>
-)} */}
 
         </div>
       ) : (

@@ -23,7 +23,6 @@ def generate_lesson_controller():
         sub_category = SubCategory.objects.get(id=data['sub_category_id'])
         print("✅ Sub-category found:", sub_category.name)
 
-        # prompt_text = data['prompt']
         prompt_text = data.get('prompt', '')
 
         print("✏️ Prompt text:", prompt_text)

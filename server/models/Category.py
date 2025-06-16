@@ -1,4 +1,3 @@
- # models/category.py
 
 from mongoengine import Document, StringField
 

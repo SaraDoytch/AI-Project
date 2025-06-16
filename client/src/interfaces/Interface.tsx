@@ -3,11 +3,11 @@ export interface User {
   lastName: string;
   phone: string;
   email: string;
-  password: string; 
+  password: string;
   created_at?: string;
-  updated_at?: string; 
-  _id?: string; 
-  role?: "admin" | "user"; // << זה חדש
+  updated_at?: string;
+  _id?: string;
+  role?: "admin" | "user";
 
 }
 
@@ -27,8 +27,6 @@ export interface Lesson {
   created_at?: string;
 }
 
-// src/interfaces/Interface.ts
-
 // קטגוריה
 export interface Category {
   _id: string;
@@ -39,16 +37,20 @@ export interface Category {
 export interface SubCategory {
   _id: string;
   name: string;
-  category_id: string | Category; // לפעמים נקבל רק id ולפעמים אובייקט מלא
+  category_id: string | Category;
 }
 
 // שיעור / Prompt
 export interface Prompt {
   _id: string;
-  user_id: string; // אפשר גם: User אם יש לך ממשק User
+  user_id: string;
   category_id: string | Category;
   sub_category_id: string | SubCategory;
   prompt: string;
   response: string;
-  created_at: string; // אם את/ה מקבל/ת בפורמט DateTime string מהשרת
+  created_at: string;
+}
+
+export interface ProfileAvatarProps {
+  name: string;
 }

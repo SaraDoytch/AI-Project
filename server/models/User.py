@@ -1,16 +1,14 @@
- # models/user.py
 
 from mongoengine import Document, StringField, DateTimeField,EmailField
 from datetime import datetime
-
 
 class User(Document):
     firstName = StringField(required=True)
     lastName = StringField(required=True)
     phone = StringField(required=True)
     email = EmailField(required=True, unique=True)  
-    password = StringField(required=True)  # hashed password
-    role = StringField(default="user")  # "admin" למנהלים
+    password = StringField(required=True)  
+    role = StringField(default="user")  
     created_at = DateTimeField(default=datetime.utcnow)
     updated_at = DateTimeField(default=datetime.utcnow)
 

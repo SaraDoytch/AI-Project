@@ -22,10 +22,10 @@ const promptApiSlice = apiSlice.injectEndpoints({
     }),
 
     // --- שיעורים / Prompts --- (מנהל רואה הכול)
-getAllPrompts: builder.query<Prompt[], void>({
-  query: () => "api/prompts/",
-  providesTags: ["Prompt"],
-}),
+    getAllPrompts: builder.query<Prompt[], void>({
+      query: () => "api/prompts/",
+      providesTags: ["Prompt"],
+    }),
 
     // מחיקת פנייה
     deletePrompt: builder.mutation<{ success: boolean }, string>({

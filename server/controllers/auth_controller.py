@@ -25,21 +25,13 @@ def login():
     if not check_password_hash(user.password, password):
         return jsonify({"message": "Unauthorized - wrong password"}), 401
 
-    # user_info = {
-    #     "id": str(user.id),
-    #     "firstName": user.firstName,
-    #     "lastName": user.lastName,
-    #     "email": user.email,
-    #     "phone": user.phone,
-    #     "created_at": str(user.created_at)
-    # }
     user_info = {
         "id": str(user.id),
         "firstName": user.firstName,
         "lastName": user.lastName,
         "email": user.email,
         "phone": user.phone,
-        "role": user.role,  # ← הוספה חשובה!
+        "role": user.role,  
         "created_at": str(user.created_at)
 }
 
@@ -60,8 +52,7 @@ def register():
         phone = data.get("phone")
         email = data.get("email")
         password = data.get("password")
-        role = data.get("role", "user")  # מקבל את ה-role, או 'user' כברירת מחדל
-
+        role = data.get("role", "user") 
         if not firstName or not lastName or not phone or not email or not password:
             return jsonify({"message": "All fields are required!"}), 400
 

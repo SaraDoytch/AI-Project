@@ -10,11 +10,11 @@ interface LoginCredentials {
 export interface Response {
     accessToken: string;
     user: User
-  }
+}
 const UserApiSlice = apiSlice.injectEndpoints({
 
     endpoints: (builder) => ({
-        register: builder.mutation<Response,User>({
+        register: builder.mutation<Response, User>({
             query: (user) => ({
                 url: "api/register",
                 method: "POST",
@@ -22,7 +22,7 @@ const UserApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["User"]
         }),
-        login: builder.mutation<Response,LoginCredentials>({
+        login: builder.mutation<Response, LoginCredentials>({
             query: (user) => ({
                 url: "api/login",
                 method: "POST",
@@ -33,5 +33,5 @@ const UserApiSlice = apiSlice.injectEndpoints({
     })
 })
 
-export const {useLoginMutation, useRegisterMutation } = UserApiSlice;
+export const { useLoginMutation, useRegisterMutation } = UserApiSlice;
 export default UserApiSlice;

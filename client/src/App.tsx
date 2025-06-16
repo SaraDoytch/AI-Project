@@ -8,11 +8,11 @@ import store from './stores/Store'
 function App() {
   return (
     <>
-    <CookiesProvider>
-      <Provider store={store}>
-        <RouterProvider router={router} />
+      <CookiesProvider>
+        <Provider store={store}>
+          <RouterProvider router={router} />
         </Provider>
-</CookiesProvider>
+      </CookiesProvider>
     </>
   )
 }

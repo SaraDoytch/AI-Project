@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema } from "../schemas/AuthSchemas";
-import { z } from "zod";
 import {
   TextField,
   Button,
@@ -11,7 +10,6 @@ import {
   Container,
   Alert,
 } from "@mui/material";
-import axios from "axios";
 import { login } from '../stores/Slices/authSlice';
 import { UserSchema } from "../interfaces/Interface"
 import { useLoginMutation } from "../stores/Slices/UserApiSlice";
@@ -64,7 +62,7 @@ const LoginForm = () => {
       {error && <Alert severity="error">{error}</Alert>}
       {success && <Alert severity="success">{success}</Alert>}
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <Box  sx={{ mt: 2 }}>
+        <Box sx={{ mt: 2 }}>
           {/* component="form" */}
           <TextField
             label="אימייל"
