@@ -8,15 +8,17 @@ from mongoengine import connect  # השתמש ב-mongoengine במקום pymongo
 from routes.auth_route import auth_route  
 from config.cors_options import cors_options
 from routes.category_routes import category_bp
-from routes.learning_route import learning_bp
-
+from routes.prompt_route import prompt_bp
+from routes.admin_route import admin_bp
 
 # טען משתני סביבה
 load_dotenv()
 
 # משתנים מהסביבה
 PORT = int(os.getenv("PORT", 7001))
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/Learning")  # ודא שיש שם בסיס נתונים
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/Prompt")  # ודא שיש שם בסיס נתונים
+
+
 
 # יצירת אפליקציה
 app = Flask(__name__)
@@ -41,7 +43,8 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 # רישום ראוטים
 app.register_blueprint(auth_route, url_prefix='/api')
 app.register_blueprint(category_bp, url_prefix='/api/categories')
-app.register_blueprint(learning_bp, url_prefix='/api/prompt')
+app.register_blueprint(prompt_bp, url_prefix='/api/prompts')
+app.register_blueprint(admin_bp, url_prefix='/api/admin')
 
 # הרצת השרת
 if __name__ == "__main__":

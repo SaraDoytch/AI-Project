@@ -14,12 +14,12 @@ import {
 import { Link } from "react-router"; // שימי לב
 import { useGetCategoriesQuery } from "../stores/Slices/categoryApiSlice";
 
-const getGreeting = () => {
-  const hour = new Date().getHours();
-  if (hour < 12) return "בוקר טוב";
-  if (hour < 18) return "צהריים טובים";
-  return "ערב טוב";
-};
+// const getGreeting = () => {
+//   const hour = new Date().getHours();
+//   if (hour < 12) return "בוקר טוב";
+//   if (hour < 18) return "צהריים טובים";
+//   return "ערב טוב";
+// };
 
 const AllLessons = () => {
   const { data: categories = [], isLoading, isError } = useGetCategoriesQuery();

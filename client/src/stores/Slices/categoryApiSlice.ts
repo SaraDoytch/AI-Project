@@ -10,7 +10,8 @@ const categoryApiSlice = apiSlice.injectEndpoints({
     // יצירת קטגוריה
     createCategory: builder.mutation<Category, Partial<Category>>({
       query: (category) => ({
-        url: "api/categories/addCategory",
+        // url: "api/categories/addCategory",
+        url: "/api/categories/",
         method: "POST",
         body: category,
       }),
@@ -19,28 +20,41 @@ const categoryApiSlice = apiSlice.injectEndpoints({
 
     // שליפת כל הקטגוריות
     getCategories: builder.query<Category[], void>({
-      query: () => "api/categories/getCategories",
+      // query: () => "api/categories/getCategories",
+      query: () => "/api/categories/",
+
       providesTags: ["Category"],
     }),
 // שליפת קטגוריה לפי ID
 getCategoryById: builder.query<Category, string>({
-  query: (id) => `api/categories/${id}`,
+  query: (id) => `/api/categories/${id}`,
   providesTags: (result, error, id) => [{ type: "Category", id }],
 }),
     // עדכון קטגוריה
     updateCategory: builder.mutation<Category, { id: string; updated: Partial<Category> }>({
       query: ({ id, updated }) => ({
-        url: `api/categories/${id}`,
+        // url: `api/categories/${id}`,
+        url: `/api/categories/${id}`,
+
         method: "PUT",
         body: updated,
       }),
       invalidatesTags: ["Category"],
     }),
+    // --- קטגוריות ---
+getAllCategoriesWithSubs: builder.query<Category[], void>({
+  // query: () => "api/categories/withSubs",   // יצירת endpoint מרוכב שמחזיר קטגוריה עם subCategories מוכללות
+  query: () => "/api/categories/withSubs",
+
+  providesTags: ["Category", "SubCategory"],
+}),
 
     // מחיקת קטגוריה
     deleteCategory: builder.mutation<{ success: boolean }, string>({
       query: (id) => ({
-        url: `api/categories/${id}`,
+        // url: `api/categories/${id}`,
+        url: `/api/categories/${id}`,
+
         method: "DELETE",
       }),
       invalidatesTags: ["Category"],
@@ -50,17 +64,19 @@ getCategoryById: builder.query<Category, string>({
 
     // יצירת תת-קטגוריה
     createSubCategory: builder.mutation<SubCategory, Partial<SubCategory>>({
-      query: (subCategory) => ({
-        url: "api/categories/addSubcategory",
+      query: (sub_id) => ({
+        // url: "api/categories/addSubCategory",
+        url: "/api/categories/subCategory",
+
         method: "POST",
-        body: subCategory,
+        body: sub_id,
       }),
       invalidatesTags: ["SubCategory"],
     }),
 
     // שליפת תתי קטגוריות לפי קטגוריה
    getSubCategoriesByCategory: builder.query<SubCategory[], { categoryId: string }>({
-  query: ({ categoryId }) => `/api/categories/subcategories/${categoryId}`,
+  query: ({ categoryId }) => `/api/categories/subCategories/${categoryId}`,
   providesTags: ["SubCategory"],
 }),
 
@@ -68,7 +84,9 @@ getCategoryById: builder.query<Category, string>({
     // עדכון תת-קטגוריה
     updateSubCategory: builder.mutation<SubCategory, { id: string; updated: Partial<SubCategory> }>({
       query: ({ id, updated }) => ({
-        url: `api/categories/${id}`,
+        // url: `api/categories/${id}`,
+        url: `/api/categories/subCategory/${id}`,
+
         method: "PUT",
         body: updated,
       }),
@@ -78,7 +96,9 @@ getCategoryById: builder.query<Category, string>({
     // מחיקת תת-קטגוריה
     deleteSubCategory: builder.mutation<{ success: boolean }, string>({
       query: (id) => ({
-        url: `api/categories/${id}`,
+        // url: `api/categories/${id}`,
+        url: `/api/categories/subCategory/${id}`,
+
         method: "DELETE",
       }),
       invalidatesTags: ["SubCategory"],
@@ -96,6 +116,7 @@ export const {
   useGetSubCategoriesByCategoryQuery,
   useUpdateSubCategoryMutation,
   useDeleteSubCategoryMutation,
+  useGetAllCategoriesWithSubsQuery
 } = categoryApiSlice;
 
 export default categoryApiSlice;
