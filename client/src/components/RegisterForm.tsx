@@ -44,7 +44,7 @@ const RegisterForm = () => {
       phone: "",
       email: "",
       password: "",
-      role: "user",
+      role: "user", 
     },
   });
 

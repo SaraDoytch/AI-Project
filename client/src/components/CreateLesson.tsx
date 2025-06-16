@@ -91,9 +91,6 @@ const CreateLesson = () => {
       <Typography variant="h4" gutterBottom>
         צור שיעור חדש {selectedCategory ? `– ${selectedCategory.name}` : ""}
       </Typography>
-      <Button variant="outlined" onClick={() => navigate(-1)}>
-        חזרה
-      </Button>
 
       <TextField
         select
@@ -150,7 +147,9 @@ const CreateLesson = () => {
       >
         {sending ? <CircularProgress size={24} /> : "שלח שאלה"}
       </Button>
-
+  <Button variant="outlined" onClick={() => navigate(-1)}>
+        חזרה
+      </Button>
       {(loadingCategories || loadingSubCategories) && (
         <Box display="flex" justifyContent="center" mt={4}>
           <CircularProgress />
