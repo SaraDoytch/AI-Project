@@ -64,12 +64,12 @@ getAllCategoriesWithSubs: builder.query<Category[], void>({
 
     // יצירת תת-קטגוריה
     createSubCategory: builder.mutation<SubCategory, Partial<SubCategory>>({
-      query: (sub_id) => ({
+      query: (category_id) => ({
         // url: "api/categories/addSubCategory",
         url: "/api/categories/subCategory",
 
         method: "POST",
-        body: sub_id,
+        body: category_id,
       }),
       invalidatesTags: ["SubCategory"],
     }),

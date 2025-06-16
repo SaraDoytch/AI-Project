@@ -15,12 +15,15 @@ import {
   InputLabel,
   FormControl,
   FormHelperText,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRegisterMutation } from "../stores/Slices/UserApiSlice";
 import { loginRegister } from "../stores/Slices/authSlice";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 type RegisterFormData = z.infer<typeof RegisterSchema>;
 
@@ -61,6 +64,8 @@ const RegisterForm = () => {
       setError(err.response?.data?.detail || "שגיאה בהרשמה");
     }
   };
+const [showPassword, setShowPassword] = useState(false);
+const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
   return (
     <Container maxWidth="sm">
@@ -108,16 +113,26 @@ const RegisterForm = () => {
           margin="normal"
           type="email"
         />
-        <TextField
-          label="סיסמה"
-          {...register("password")}
-          error={!!errors.password}
-          helperText={errors.password?.message}
-          fullWidth
-          required
-          margin="normal"
-          type="password"
-        />
+  <TextField
+  label="סיסמה"
+  {...register("password")}
+  error={!!errors.password}
+  helperText={errors.password?.message}
+  fullWidth
+  required
+  margin="normal"
+  type={showPassword ? "text" : "password"}
+  InputProps={{
+    endAdornment: (
+      <InputAdornment position="end">
+        <IconButton onClick={togglePasswordVisibility} edge="end">
+          {showPassword ? <VisibilityOff /> : <Visibility />}
+        </IconButton>
+      </InputAdornment>
+    ),
+  }}
+/>
+
 
         {/* שדה בחירת תפקיד */}
         <FormControl

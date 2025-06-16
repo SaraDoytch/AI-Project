@@ -1,7 +1,6 @@
 
 
 // export default Instructions;
-import React from "react";
 import { Container, Typography, Button, List, ListItem, ListItemText, Box } from "@mui/material";
 import { useNavigate } from "react-router";
 

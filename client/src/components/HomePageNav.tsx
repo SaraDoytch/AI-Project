@@ -1,7 +1,5 @@
 
-
-import React from 'react';
-import { NavLink } from 'react-router';
+import {  NavLink, useNavigate } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../stores/Store';
 import { logout } from '../stores/Slices/authSlice';
@@ -10,9 +8,10 @@ import ProfileAvatar from './ProfileAvatar';
 const HomePageNav = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.auth.currentUser);
-
+ const navigate = useNavigate();
   const handleLogout = () => {
     dispatch(logout());
+    navigate('/')
   };
 
   return (

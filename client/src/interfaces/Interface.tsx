@@ -29,13 +29,17 @@ export interface Lesson {
 
 // קטגוריה
 export interface Category {
-  _id: string;
+  // _id: string;
+  id?: string;
   name: string;
+  subCategories?: SubCategory[];
+
 }
 
 // תת קטגוריה
 export interface SubCategory {
-  _id: string;
+  // _id: string;
+  id?: string;
   name: string;
   category_id: string | Category;
 }

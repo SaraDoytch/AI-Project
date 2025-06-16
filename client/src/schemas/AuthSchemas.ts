@@ -17,5 +17,5 @@ export const RegisterSchema = z.object({
     .regex(/^[0-9+()-\s]+$/, "מספר טלפון לא תקין"),
   email: z.string().email("אימייל לא תקין").min(1, "שדה אימייל חובה"),
   password: z.string().min(8, "הסיסמה חייבת להכיל לפחות 8 תווים"),
-  role: z.enum(["user", "admin"]).default("user"),
+  role: z.enum(["user", "admin"]),
 });
