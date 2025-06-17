@@ -76,8 +76,13 @@ const CreateLesson = () => {
         prompt: question.trim() || "שאלה כללית על הנושא שנבחר",
       }).unwrap();
       console.log("response from server:", result);
+      console.log("id:", result.id);
+      console.log("prompt:", result.prompt);
+      console.log("response:", result.response);
+      console.log("created_at:", result.created_at);
 
-      setResponse(result.lesson);
+
+      setResponse(result.response);
       setDialogOpen(true);
     } catch (error) {
       setResponse("אירעה שגיאה בעת יצירת השיעור.");

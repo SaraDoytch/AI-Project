@@ -13,12 +13,10 @@ import {
   useUpdateSubCategoryMutation,
   useDeleteSubCategoryMutation,
 } from "../stores/Slices/categoryApiSlice";
-import { useGetAllPromptsQuery } from "../stores/Slices/promptApiSlice";
 import { SubCategory } from "../interfaces/Interface";
 
 const AdminCategoryPanel = () => {
   const { data: categories = [], refetch } = useGetAllCategoriesWithSubsQuery();
-  const { data: prompts = [] } = useGetAllPromptsQuery();
 
   const [updateCategory] = useUpdateCategoryMutation();
   const [deleteCategory] = useDeleteCategoryMutation();
@@ -35,13 +33,7 @@ const AdminCategoryPanel = () => {
     setEditOpen(true);
   };
 
-  // const handleDelete = async (id: string, type: "cat" | "sub") => {
-  //   if (window.confirm("האם את/ה בטוח/ה שברצונך למחוק?")) {
-  //     if (type === "cat") await deleteCategory(id).unwrap();
-  //     else await deleteSubCategory(id).unwrap();
-  //     refetch();
-  //   }
-  // };
+
 
   const handleDelete = async (id: string, type: "cat" | "sub") => {
     console.log("Deleting", type, id);
@@ -85,12 +77,12 @@ const AdminCategoryPanel = () => {
               {/* תתי קטגוריות */}
               <Stack mt={1} pl={2} spacing={1}>
                 {cat.subCategories?.map((sub: SubCategory) => (
-                  <Paper key={sub._id} sx={{ p: 1 }}>
+                  <Paper key={sub.id} sx={{ p: 1 }}>
                     <Stack direction="row" justifyContent="space-between" alignItems="center">
                       <Typography>{sub.name}</Typography>
                       <Stack direction="row">
-                        <IconButton size="small" onClick={() => handleOpenEdit(sub.id, "sub", sub.name)}><Edit fontSize="small" /></IconButton>
-                        <IconButton size="small" color="error" onClick={() => handleDelete(sub.id, "sub")}><Delete fontSize="small" /></IconButton>
+                        <IconButton size="small" onClick={() => handleOpenEdit(sub.id!, "sub", sub.name)}><Edit fontSize="small" /></IconButton>
+                        <IconButton size="small" color="error" onClick={() => handleDelete(sub.id!, "sub")}><Delete fontSize="small" /></IconButton>
                       </Stack>
                     </Stack>
                   </Paper>

@@ -1,8 +1,7 @@
 
 
-import React, { useState } from "react";
+import { useState } from "react";
 import {
-    Box,
     Button,
     Card,
     CardContent,
@@ -93,7 +92,7 @@ const AdminCategoryManager = () => {
                         options={categories}
                         getOptionLabel={(option) => option.name}
                         value={selectedCategory}
-                        onChange={(event, newValue) => setSelectedCategory(newValue)}
+                        onChange={(_event, newValue) => setSelectedCategory(newValue)}
                         renderInput={(params) => (
                             <TextField {...params} label="בחר קטגוריה" fullWidth />
                         )}

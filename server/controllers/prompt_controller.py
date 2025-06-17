@@ -9,8 +9,6 @@ from flask import request
 from mongoengine.errors import DoesNotExist
 import traceback
 
-
-
 def generate_lesson_controller():
     data = request.json
     print("📥 Received data:", data)
@@ -23,13 +21,19 @@ def generate_lesson_controller():
         sub_category = SubCategory.objects.get(id=data['sub_category_id'])
         print("✅ Sub-category found:", sub_category.name)
 
-        prompt_text = data.get('prompt', '')
+        prompt_text = data.get('prompt', '').strip()
+        if not prompt_text:
+            prompt_text = "שאלה כללית על הנושא שנבחר"
 
-        print("✏️ Prompt text:", prompt_text)
+        # שלב הקריאה ל-AI — עלול להיכשל
+        try:
+            response_text = get_lesson_from_ai(category.name, sub_category.name, prompt_text)
+            print("📚 AI Response:", response_text)
+        except Exception as ai_error:
+            print("❌ שגיאה מה-AI:", ai_error)
+            return jsonify({"error": "שגיאה ביצירת השיעור מה-AI"}), 500
 
-        response_text = get_lesson_from_ai(category.name, sub_category.name, prompt_text)
-        print("📚 AI Response:", response_text)
-
+        # נשמור רק אם לא הייתה שגיאה ב־AI
         prompt_doc = Prompt(
             user_id=user,
             category_id=category,
@@ -39,30 +43,16 @@ def generate_lesson_controller():
         )
         prompt_doc.save()
 
-        return jsonify({"lesson": response_text}), 201
+        return jsonify(serialize_prompt(prompt_doc)), 201
 
     except DoesNotExist:
         print("❌ אחד המרכיבים לא נמצא ב־DB")
-        return jsonify({"error": "User or category not found"}), 404
+        return jsonify({"error": "User, category או sub-category לא נמצאו"}), 404
     except Exception as e:
         print("💥 Exception:", e)
         return jsonify({"error": str(e)}), 500
 
 
-
-# def serialize_prompt(prompt):
-#     return {
-#         "id": str(prompt.id),
-#         "user_id": str(prompt.user_id.id),
-#         "user_name": f"{prompt.user_id.firstName} {prompt.user_id.lastName}" if prompt.user_id else "",
-#         "category_id": str(prompt.category_id.id) if prompt.category_id else None,
-#         "category_name": prompt.category_id.name if prompt.category_id else "",
-#         "sub_category_id": str(prompt.sub_category_id.id) if prompt.sub_category_id else None,
-#         "sub_category_name": prompt.sub_category_id.name if prompt.sub_category_id else "",
-#         "prompt": prompt.prompt,
-#         "response": prompt.response,
-#         "created_at": prompt.created_at.isoformat(),
-#     }
 def serialize_prompt(prompt):
     try:
         category_id = str(prompt.category_id.id)
