@@ -29,7 +29,7 @@ export interface Lesson {
 
 // קטגוריה
 export interface Category {
-  // _id: string;
+  _id?: string;
   id?: string;
   name: string;
   subCategories?: SubCategory[];
@@ -38,7 +38,7 @@ export interface Category {
 
 // תת קטגוריה
 export interface SubCategory {
-  // _id: string;
+  _id?: string;
   id?: string;
   name: string;
   category_id: string | Category;
@@ -46,9 +46,10 @@ export interface SubCategory {
 
 // שיעור / Prompt
 export interface Prompt {
-  _id: string;
+  id: string;
   user_id: string;
-  category_id: string | Category;
+  category_id: string ;
+  // | Category;
   sub_category_id: string | SubCategory;
   prompt: string;
   response: string;

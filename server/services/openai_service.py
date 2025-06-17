@@ -13,9 +13,8 @@ headers = {
     "Content-Type": "application/json"
 }
 
-# פונקציה לשליפת שיעור מ-AI
+
 def get_lesson_from_ai(category, sub_category, prompt_text):
-    # יצירת ההנחיה עבור המורה
     full_prompt = (
         f"אתה מורה מקצועי שמעביר שיעורים קצרים. "
         f"כתוב שיעור ברור, מעניין וקריא באורך 8–10 שורות "
@@ -37,23 +36,21 @@ def get_lesson_from_ai(category, sub_category, prompt_text):
             headers=headers,
             json={
                 "model": "gpt-4o",
-                "messages": [
-                    {"role": "user", "content": full_prompt}
-                ],
+                "messages": [{"role": "user", "content": full_prompt}],
                 "max_tokens": 500,
                 "temperature": 0.7
             },
             timeout=20.0,
-            verify=False  # אפשר להסיר אם SSL תקין
+            verify=False
         )
 
-        data = response.json()
         if response.status_code != 200:
-            print("❌ שגיאה מהשרת:", data)
-            return f"שגיאה ביצירת שיעור: {data.get('error', {}).get('message', 'לא ידועה')}"
+            data = response.json()
+            raise Exception(data.get("error", {}).get("message", "שגיאה לא ידועה מה-AI"))
 
+        data = response.json()
         return data["choices"][0]["message"]["content"]
 
     except Exception as e:
         print("💥 שגיאה:", e)
-        return "אירעה שגיאה ביצירת השיעור מה-AI."
+        raise  # זרוק את השגיאה כדי שייקלטה בפונקציה שמעל

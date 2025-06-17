@@ -13,7 +13,8 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # חשיפת פורט 5000 (ברירת מחדל ל-Flask)
-EXPOSE 5000
+EXPOSE 7002
 
 # הפעלת השרת
 CMD ["python", "app.py"]
+

@@ -1,30 +1,30 @@
-# frontend/Dockerfile
-
-# שלב 1: בניית אפליקציית React עם Node
-FROM node:18 as build
+# שלב 1: נשתמש רק אם אין dist מוכן
+FROM node:18 AS build
 
 WORKDIR /app
 
-# העתקת package.json ו-package-lock.json
+# העתקת קבצי package
 COPY package*.json ./
 
-# התקנת תלויות
+# התקנת תלויות - כולל הכל כדי להימנע מבאגים
 RUN npm install
 
-# העתקת שאר הקבצים
+# העתקת שאר קבצי הפרויקט
 COPY . .
 
-# בניית הפרויקט לייצוא (production build)
-RUN npm run build
+# רק אם dist לא קיים, נבנה
+RUN [ -d dist ] || npm run build
 
-# שלב 2: שרת nginx להפצת הסטטיים
+
+# שלב 2: nginx
 FROM nginx:alpine
 
-# העתקת קבצי ה-build ל-nginx
-COPY --from=build /app/build /usr/share/nginx/html
+# אם היה שלב בנייה – נשתמש בתוצאה שלו, ואם לא – פשוט ניקח את מה שקיים בפרויקט
+COPY --from=build /app/dist /usr/share/nginx/html
 
-# חשיפת פורט 80
+# הוספת קובץ קונפיגורציה מותאם אישית (לא חובה)
+# COPY nginx.conf /etc/nginx/nginx.conf
+
 EXPOSE 80
 
-# הפעלת nginx
 CMD ["nginx", "-g", "daemon off;"]
