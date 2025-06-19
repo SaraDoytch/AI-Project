@@ -16,7 +16,7 @@ load_dotenv()
 
 # משתנים מהסביבה
 PORT = int(os.getenv("PORT", 7001))
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://backend:27017/Prompt")  
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/Prompt")  
 
 # יצירת אפליקציה
 app = Flask(__name__)
@@ -24,17 +24,18 @@ app.config["DEBUG"] = True
 CORS(app, resources=cors_options)
 
 
-connect(
-    host=MONGO_URI,
-    tlsCAFile=certifi.where()
-)
+# connect(
+#     host=MONGO_URI,
+#     tlsCAFile=certifi.where()
+# )
 
 
 
 # התחברות למסד הנתונים דרך mongoengine
 def connect_db():
     try:
-        connect(host=MONGO_URI,tlsCAFile=certifi.where())
+        # host=MONGO_URI,tlsCAFile=certifi.where()
+        connect( host=MONGO_URI)
         print("✅ Connected to MongoDB")
     except Exception as e:
         print("❌ MongoDB connection error:", e)
