@@ -5,7 +5,6 @@ PyJWT
 flask
 flask_cors
 pymongo
-Flask
 httpx
 certifi
 flask_socketio
