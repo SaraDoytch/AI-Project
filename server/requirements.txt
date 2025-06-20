@@ -8,3 +8,4 @@ pymongo
 httpx
 certifi
 flask_socketio
+eventlet

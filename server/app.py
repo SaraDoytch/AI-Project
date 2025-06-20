@@ -1,3 +1,5 @@
+import eventlet
+eventlet.monkey_patch()
 
 import os
 from flask_socketio import SocketIO
@@ -53,4 +55,5 @@ app.register_blueprint(admin_bp, url_prefix='/api/admin')
 
 # הרצת השרת
 if __name__ == "__main__":
-    socketio.run(app, debug=True, port=PORT, host="0.0.0.0")
+    # socketio.run(app, debug=True, port=PORT, host="0.0.0.0")
+    socketio.run(app, host="0.0.0.0", port=PORT)
