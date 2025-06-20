@@ -1,5 +1,6 @@
 
 import os
+from flask_socketio import SocketIO
 from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -10,6 +11,7 @@ from routes.category_routes import category_bp
 from routes.prompt_route import prompt_bp
 from routes.admin_route import admin_bp
 import certifi
+from socket_instance import socketio
 
 # טען משתני סביבה
 load_dotenv()
@@ -22,19 +24,15 @@ MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/Prompt")
 app = Flask(__name__)
 app.config["DEBUG"] = True
 CORS(app, resources=cors_options)
-
-
-# connect(
-#     host=MONGO_URI,
-#     tlsCAFile=certifi.where()
-# )
-
+socketio.init_app(app, cors_allowed_origins="*")
+@socketio.on('connect')
+def handle_connect():
+    print('🔌 Client connected!')
 
 
 # התחברות למסד הנתונים דרך mongoengine
 def connect_db():
     try:
-        # host=MONGO_URI,tlsCAFile=certifi.where()
         connect( host=MONGO_URI)
         print("✅ Connected to MongoDB")
     except Exception as e:
@@ -55,6 +53,4 @@ app.register_blueprint(admin_bp, url_prefix='/api/admin')
 
 # הרצת השרת
 if __name__ == "__main__":
-    # app.run(port=PORT, debug=True)
-    app.run(host="0.0.0.0", port=PORT, debug=True)
-
+    socketio.run(app, debug=True, port=PORT, host="0.0.0.0")

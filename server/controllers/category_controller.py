@@ -3,6 +3,7 @@ from models.Category import Category
 from models.SubCategory import SubCategory
 from mongoengine import NotUniqueError
 from bson import ObjectId
+from socket_instance import socketio
 
 def add_category():
     data = request.get_json()
@@ -19,6 +20,7 @@ def add_category():
     try:
         category = Category(name=name)
         category.save()
+        socketio.emit('new_category_created')
         return jsonify({'message': 'Category created', 'id': str(category.id)}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -52,6 +54,7 @@ def add_subCategory():
     try:
         subcategory = SubCategory(name=name, category_id=category)
         subcategory.save()
+        socketio.emit('new_SubCategory_created')
         return jsonify({'message': 'SubCategory created', 'id': str(subcategory.id)}), 201
     except Exception as e:
         return jsonify({'error': f'Failed to create subcategory: {str(e)}'}), 500
@@ -97,6 +100,7 @@ def delete_category(id):
         SubCategory.objects(category_id=category).delete()
         
         category.delete()
+        socketio.emit('category_deleted')
         return jsonify({'message': 'Category and its subcategories deleted'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -107,8 +111,8 @@ def delete_subCategory(sub_id):
         sub = SubCategory.objects(id=sub_id).first()
         if not sub:
             return jsonify({'error': 'SubCategory not found'}), 404
-
         sub.delete()
+        socketio.emit('subCategory_deleted')
         return jsonify({'message': 'SubCategory deleted'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -154,6 +158,7 @@ def update_category(id):
 
         category.name = name
         category.save()
+        socketio.emit('category_updated')
         return jsonify({'message': 'Category updated'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -172,6 +177,7 @@ def update_subCategory(sub_id):
 
         sub.name = name
         sub.save()
+        socketio.emit('subCategory_updated')
         return jsonify({'message': 'SubCategory updated'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
