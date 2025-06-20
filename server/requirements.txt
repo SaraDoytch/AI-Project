@@ -8,3 +8,4 @@ pymongo
 Flask
 httpx
 certifi
+flask_socketio
