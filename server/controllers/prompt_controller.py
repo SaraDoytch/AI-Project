@@ -8,6 +8,8 @@ from mongoengine import DoesNotExist
 from flask import request
 from mongoengine.errors import DoesNotExist
 import traceback
+from socket_instance import socketio
+
 
 def generate_lesson_controller():
     data = request.json
@@ -42,7 +44,7 @@ def generate_lesson_controller():
             response=response_text
         )
         prompt_doc.save()
-
+        socketio.emit('new_lesson_created')
         return jsonify(serialize_prompt(prompt_doc)), 201
 
     except DoesNotExist:
@@ -115,8 +117,8 @@ def delete_prompt(prompt_id):
         prompt = Prompt.objects(id=prompt_id).first()
         if not prompt:
             return {"error": "Prompt not found"}, 404
-
         prompt.delete()
+        socketio.emit('prompt_deleted')
         return {"message": "Prompt deleted"}, 200
     except Exception as e:
         return {"error": str(e)}, 500
