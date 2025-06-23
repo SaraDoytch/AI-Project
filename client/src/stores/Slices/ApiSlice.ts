@@ -7,7 +7,8 @@ const cookies = new Cookies();
 const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:7002",
+    baseUrl: import.meta.env.VITE_API_URL,
+    // "http://localhost:7002",
     credentials: 'include',
     prepareHeaders: (headers) => {
       const token = cookies.get("token");
