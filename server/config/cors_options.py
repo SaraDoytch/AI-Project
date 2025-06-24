@@ -14,7 +14,7 @@ allowed_origins = [
 cors_options = {
     "origins": allowed_origins,
     "supports_credentials": True,
-    "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    "methods": ["GET", "POST", "PUT", "DELETE","PATCH", "OPTIONS"],
     "allow_headers": "*",
     "max_age": 86400
 }

@@ -22,7 +22,7 @@ def get_categories_route():
 def get_category_by_id_route(id):
     return get_category_by_id(id)
 
-@category_bp.route('/<string:id>', methods=['PUT'])
+@category_bp.route('/<string:id>', methods=['PATCH'])
 def update_category_route(id):
     return update_category(id)
 
@@ -35,7 +35,7 @@ def delete_category_route(id):
 def add_sub_category_route():
     return add_subCategory()
 
-@category_bp.route('/subCategory/<string:sub_id>', methods=['PUT'])
+@category_bp.route('/subCategory/<string:sub_id>', methods=['PATCH'])
 def update_sub_category_route(sub_id):
     return update_subCategory(sub_id)
 

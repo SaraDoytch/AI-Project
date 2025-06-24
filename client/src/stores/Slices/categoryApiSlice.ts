@@ -31,7 +31,7 @@ getCategoryById: builder.query<Category, string>({
     updateCategory: builder.mutation<Category, { id: string; updated: Partial<Category> }>({
       query: ({ id, updated }) => ({
         url: `/api/categories/${id}`,
-        method: "PUT",
+        method: "PATCH",
         body: updated,
       }),
       invalidatesTags: ["Category"],
@@ -76,7 +76,7 @@ getAllCategoriesWithSubs: builder.query<Category[], void>({
     updateSubCategory: builder.mutation<SubCategory, { id: string; updated: Partial<SubCategory> }>({
       query: ({ id, updated }) => ({
         url: `/api/categories/subCategory/${id}`,
-        method: "PUT",
+        method: "PATCH",
         body: updated,
       }),
       invalidatesTags: ["SubCategory"],
