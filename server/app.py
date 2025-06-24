@@ -30,7 +30,9 @@ MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/Prompt")
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
-CORS(app, resources=cors_options)
+# CORS(app, resources=cors_options)
+CORS(app, resources={r"/api/*": cors_options})
+
 
 socketio.init_app(app, cors_allowed_origins="*")
 
