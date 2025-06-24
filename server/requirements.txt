@@ -9,3 +9,4 @@ httpx
 certifi
 flask_socketio
 eventlet
+gunicorn
