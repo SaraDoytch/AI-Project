@@ -6,7 +6,7 @@ print("Eventlet version:", eventlet.__version__)
 print("Is eventlet monkey patched for 'socket' module:", eventlet.patcher.is_monkey_patched(socket))
 
 import os
-from flask_socketio import SocketIO
+# from flask_socketio import SocketIO
 from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -17,9 +17,10 @@ from routes.category_routes import category_bp
 from routes.prompt_route import prompt_bp
 from routes.admin_route import admin_bp
 import certifi
+from socket_instance import socketio
 
 # יצירת אינסטנס של SocketIO (אפשר גם להפריד לקובץ אחר אם רוצים)
-socketio = SocketIO(async_mode='eventlet')
+# socketio = SocketIO(async_mode='eventlet')
 
 # טען משתני סביבה
 load_dotenv()
