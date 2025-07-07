@@ -1,0 +1,107 @@
+tags:
+  - Authentication
+summary: רישום משתמש חדש
+description: >
+  רישום משתמש חדש עם פרטי שם פרטי, שם משפחה, טלפון, אימייל וסיסמה.
+  מחזיר את המשתמש ו-token במידה והרישום הצליח.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - firstName
+          - lastName
+          - phone
+          - email
+          - password
+        properties:
+          firstName:
+            type: string
+            example: "ישראל"
+          lastName:
+            type: string
+            example: "כהן"
+          phone:
+            type: string
+            example: "0501234567"
+          email:
+            type: string
+            format: email
+            example: "israel@example.com"
+          password:
+            type: string
+            format: password
+            example: "123456"
+          role:
+            type: string
+            example: "user"
+responses:
+  201:
+    description: משתמש נוצר בהצלחה
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            accessToken:
+              type: string
+              example: "jwt.token.here"
+            user:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: "60a7c1f4e8d2c1234567890a"
+                firstName:
+                  type: string
+                  example: "ישראל"
+                lastName:
+                  type: string
+                  example: "כהן"
+                phone:
+                  type: string
+                  example: "0501234567"
+                email:
+                  type: string
+                  example: "israel@example.com"
+                role:
+                  type: string
+                  example: "user"
+                created_at:
+                  type: string
+                  example: "2023-06-27T14:34:22"
+  400:
+    description: שדות חסרים או שגויים
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "All fields are required!"
+  409:
+    description: אימייל כבר קיים
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Email already exists"
+  500:
+    description: שגיאת שרת פנימית
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Internal server error"
+            error:
+              type: string
+              example: "Details about the error"

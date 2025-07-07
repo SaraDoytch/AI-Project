@@ -1,0 +1,43 @@
+tags:
+  - Category
+summary: קבלת קטגוריה לפי מזהה
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+    description: מזהה של הקטגוריה
+responses:
+  200:
+    description: קטגוריה נמצאה
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            _id:
+              type: string
+              example: "60a7c1f4e8d2c1234567890a"
+            name:
+              type: string
+              example: "מדע"
+  404:
+    description: קטגוריה לא נמצאה
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Category not found"
+  500:
+    description: שגיאה בשרת
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string

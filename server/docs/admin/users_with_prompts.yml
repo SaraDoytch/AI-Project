@@ -1,0 +1,44 @@
+get:
+  tags:
+    - Admin
+  summary: Get users with their prompts
+  description: Returns a list of all users along with the prompts they created.
+  responses:
+    200:
+      description: A list of users and their prompts
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: "64a12c87c123..."
+                firstName:
+                  type: string
+                  example: "שרה"
+                lastName:
+                  type: string
+                  example: "כהן"
+                email:
+                  type: string
+                  example: "sara@example.com"
+                prompts:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "64b123c9a..."
+                      title:
+                        type: string
+                        example: "מהפכת התעשייה..."
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: "2025-07-07T14:32:00"
+    500:
+      description: Internal server error

@@ -1,0 +1,48 @@
+tags:
+  - SubCategory
+summary: קבלת כל תתי-הקטגוריות של קטגוריה ספציפית
+parameters:
+  - in: path
+    name: category_id
+    required: true
+    schema:
+      type: string
+    description: מזהה של הקטגוריה
+responses:
+  200:
+    description: רשימת תתי-קטגוריות
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+                example: "60a7c1f4e8d2c1234567890b"
+              name:
+                type: string
+                example: "כימיה"
+              category_id:
+                type: string
+                example: "60a7c1f4e8d2c1234567890a"
+  404:
+    description: קטגוריה לא נמצאה
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Category not found"
+  500:
+    description: שגיאת שרת
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string

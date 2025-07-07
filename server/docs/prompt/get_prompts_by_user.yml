@@ -1,0 +1,70 @@
+tags:
+  - Prompt
+summary: קבלת שיעורים לפי מזהה משתמש
+parameters:
+  - in: path
+    name: user_id
+    required: true
+    schema:
+      type: string
+    description: מזהה המשתמש
+responses:
+  200:
+    description: רשימת שיעורים של המשתמש
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "60a7c1f4e8d2c1234567890d"
+              user_id:
+                type: string
+                example: "60a7c1f4e8d2c1234567890a"
+              user_name:
+                type: string
+                example: "שרית לוי"
+              category_id:
+                type: string
+                example: "60a7c1f4e8d2c1234567890b"
+              category_name:
+                type: string
+                example: "מדע"
+              sub_category_id:
+                type: string
+                example: "60a7c1f4e8d2c1234567890c"
+              sub_category_name:
+                type: string
+                example: "כימיה"
+              prompt:
+                type: string
+                example: "מהי המשמעות של..."
+              response:
+                type: string
+                example: "התשובה היא..."
+              created_at:
+                type: string
+                format: date-time
+                example: "2023-01-01T12:00:00Z"
+  404:
+    description: משתמש לא נמצא
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "User not found"
+  500:
+    description: שגיאת שרת
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string

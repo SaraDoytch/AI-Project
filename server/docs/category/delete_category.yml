@@ -1,0 +1,40 @@
+tags:
+  - Category
+summary: מחיקת קטגוריה ותתי-הקטגוריות שלה
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+    description: מזהה של הקטגוריה למחיקה
+responses:
+  200:
+    description: קטגוריה ותתי-הקטגוריות נמחקו
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Category and its subcategories deleted"
+  404:
+    description: קטגוריה לא נמצאה
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Category not found"
+  500:
+    description: שגיאת שרת
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string

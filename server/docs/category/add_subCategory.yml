@@ -1,0 +1,60 @@
+tags:
+  - SubCategory
+summary: הוספת תת-קטגוריה חדשה
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - name
+          - category_id
+        properties:
+          name:
+            type: string
+            example: "כימיה"
+          category_id:
+            type: string
+            example: "60a7c1f4e8d2c1234567890a"
+responses:
+  201:
+    description: תת-קטגוריה נוצרה
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "SubCategory created"
+            id:
+              type: string
+              example: "60a7c1f4e8d2c1234567890b"
+  400:
+    description: שדות חסרים או תת-קטגוריה קיימת
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+  404:
+    description: קטגוריה לא נמצאה
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+  500:
+    description: שגיאת שרת
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string

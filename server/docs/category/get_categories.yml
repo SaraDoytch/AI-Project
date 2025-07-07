@@ -1,0 +1,20 @@
+tags:
+  - Category
+summary: קבלת כל הקטגוריות
+description: מחזיר רשימה של כל הקטגוריות.
+responses:
+  200:
+    description: רשימת קטגוריות
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+                example: "60a7c1f4e8d2c1234567890a"
+              name:
+                type: string
+                example: "מדע"

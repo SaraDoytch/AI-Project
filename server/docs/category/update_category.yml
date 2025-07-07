@@ -1,0 +1,62 @@
+tags:
+  - Category
+summary: עדכון שם קטגוריה
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+    description: מזהה של הקטגוריה לעדכון
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - name
+        properties:
+          name:
+            type: string
+            example: "מדע מעודכן"
+responses:
+  200:
+    description: קטגוריה עודכנה בהצלחה
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Category updated"
+  400:
+    description: שדה שם חסר
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Name is required"
+  404:
+    description: קטגוריה לא נמצאה
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Category not found"
+  500:
+    description: שגיאת שרת
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
