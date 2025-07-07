@@ -1,0 +1,49 @@
+tags:
+  - Category
+summary: הוספת קטגוריה חדשה
+description: מוסיף קטגוריה חדשה עם שם ייחודי.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - name
+        properties:
+          name:
+            type: string
+            example: "מדע"
+responses:
+  201:
+    description: קטגוריה נוצרה בהצלחה
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Category created"
+            id:
+              type: string
+              example: "60a7c1f4e8d2c1234567890a"
+  400:
+    description: שם חסר או קטגוריה כבר קיימת
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Name is required"
+  500:
+    description: שגיאת שרת
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string

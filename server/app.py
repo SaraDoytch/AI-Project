@@ -18,6 +18,7 @@ from routes.prompt_route import prompt_bp
 from routes.admin_route import admin_bp
 import certifi
 from socket_instance import socketio
+from flasgger import Swagger
 
 # יצירת אינסטנס של SocketIO (אפשר גם להפריד לקובץ אחר אם רוצים)
 # socketio = SocketIO(async_mode='eventlet')
@@ -58,6 +59,8 @@ app.register_blueprint(auth_route, url_prefix='/api')
 app.register_blueprint(category_bp, url_prefix='/api/categories')
 app.register_blueprint(prompt_bp, url_prefix='/api/prompts')
 app.register_blueprint(admin_bp, url_prefix='/api/admin')
+swagger = Swagger(app)
 
 if __name__ == "__main__":
     socketio.run(app, host="0.0.0.0", port=PORT)
+

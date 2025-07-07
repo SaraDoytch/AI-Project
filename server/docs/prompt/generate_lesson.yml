@@ -1,0 +1,86 @@
+tags:
+  - Prompt
+summary: יצירת שיעור באמצעות AI
+description: מקבל פרטי משתמש, קטגוריה, תת-קטגוריה וטקסט שאלה (prompt) ושולח ל-AI לקבלת שיעור. שומר את התוצאה בבסיס.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - user_id
+          - category_id
+          - sub_category_id
+        properties:
+          user_id:
+            type: string
+            example: "60a7c1f4e8d2c1234567890a"
+          category_id:
+            type: string
+            example: "60a7c1f4e8d2c1234567890b"
+          sub_category_id:
+            type: string
+            example: "60a7c1f4e8d2c1234567890c"
+          prompt:
+            type: string
+            example: "מהי המשמעות של..."
+responses:
+  201:
+    description: שיעור נוצר בהצלחה
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "60a7c1f4e8d2c1234567890d"
+            user_id:
+              type: string
+              example: "60a7c1f4e8d2c1234567890a"
+            user_name:
+              type: string
+              example: "שרית לוי"
+            category_id:
+              type: string
+              example: "60a7c1f4e8d2c1234567890b"
+            category_name:
+              type: string
+              example: "מדע"
+            sub_category_id:
+              type: string
+              example: "60a7c1f4e8d2c1234567890c"
+            sub_category_name:
+              type: string
+              example: "כימיה"
+            prompt:
+              type: string
+              example: "מהי המשמעות של..."
+            response:
+              type: string
+              example: "התשובה היא..."
+            created_at:
+              type: string
+              format: date-time
+              example: "2023-01-01T12:00:00Z"
+  404:
+    description: משתמש, קטגוריה או תת-קטגוריה לא נמצאו
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "User, category או sub-category לא נמצאו"
+  500:
+    description: שגיאת שרת או שגיאה ביצירת השיעור מה-AI
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "שגיאה ביצירת השיעור מה-AI"
