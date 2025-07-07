@@ -6,7 +6,6 @@ print("Eventlet version:", eventlet.__version__)
 print("Is eventlet monkey patched for 'socket' module:", eventlet.patcher.is_monkey_patched(socket))
 
 import os
-# from flask_socketio import SocketIO
 from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -18,23 +17,14 @@ from routes.prompt_route import prompt_bp
 from routes.admin_route import admin_bp
 import certifi
 from socket_instance import socketio
+from config.config import Config 
 
-# יצירת אינסטנס של SocketIO (אפשר גם להפריד לקובץ אחר אם רוצים)
-# socketio = SocketIO(async_mode='eventlet')
-
-# טען משתני סביבה
-load_dotenv()
-
-PORT = int(os.getenv("PORT", 7001))
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/Prompt")  
-
+PORT=Config.PORT
 app = Flask(__name__)
 app.config["DEBUG"] = True
-# CORS(app, resources=cors_options)
+app.config["SECRET_KEY"] = Config.SECRET_KEY
+
 CORS(app, **cors_options)
-
-# CORS(app, resources={r"/api/*": cors_options})
-
 
 socketio.init_app(app, cors_allowed_origins="*")
 
@@ -44,12 +34,14 @@ def handle_connect():
 
 def connect_db():
     try:
-        connect(host=MONGO_URI)
-        print("✅ Connected to MongoDB")
+        connect(host=Config.MONGO_URI)
+        print("✅ Connected to MongoDB (via mongoengine)")
     except Exception as e:
         print("❌ MongoDB connection error:", e)
 
 print("🚀 Starting Flask App...")
+print(f"🌍 Running in {Config.ENV} mode")
+
 connect_db()
 
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
