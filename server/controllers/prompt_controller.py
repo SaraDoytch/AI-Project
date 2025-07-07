@@ -9,6 +9,7 @@ from flask import request
 from mongoengine.errors import DoesNotExist
 import traceback
 from socket_instance import socketio
+from openai import OpenAIError
 
 
 def generate_lesson_controller():
@@ -31,9 +32,13 @@ def generate_lesson_controller():
         try:
             response_text = get_lesson_from_ai(category.name, sub_category.name, prompt_text)
             print("📚 AI Response:", response_text)
-        except Exception as ai_error:
-            print("❌ שגיאה מה-AI:", ai_error)
-            return jsonify({"error": "שגיאה ביצירת השיעור מה-AI"}), 500
+        except OpenAIError as e:
+            return jsonify({"error": str(e)}), 500
+        except TimeoutError:
+            return jsonify({"error": "Request to AI timed out"}), 504
+        except Exception as e:
+            return jsonify({"error": "Unexpected error", "details": str(e)}), 500
+
 
         # נשמור רק אם לא הייתה שגיאה ב־AI
         prompt_doc = Prompt(
