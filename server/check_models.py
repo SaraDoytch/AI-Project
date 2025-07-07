@@ -19,7 +19,6 @@ try:
         "https://api.openai.com/v1/models",
         headers=headers,
         timeout=10.0,
-        # verify=False 
     )
 
     print("✅ הצליח:", response.status_code)

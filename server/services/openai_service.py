@@ -41,7 +41,6 @@ def get_lesson_from_ai(category, sub_category, prompt_text):
                 "temperature": 0.7
             },
             timeout=20.0,
-            verify=False
         )
 
         if response.status_code != 200:
