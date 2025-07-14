@@ -93,6 +93,10 @@ const AllPrompts = () => {
               >
                 {lesson.prompt}
               </Typography>
+                 {/* הוספת הצגת הקטגוריה */}
+        <Typography variant="body2" color="text.secondary" mt={1}>
+          קטגוריה: {lesson.category_name || "לא זמין"}
+        </Typography>
               <Typography
                 variant="body2"
                 color="text.secondary"

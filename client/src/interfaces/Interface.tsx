@@ -51,6 +51,7 @@ export interface Prompt {
   category_id: string ;
   firstName: string;
   lastName: string;
+  category_name: string;
   sub_category_id: string | SubCategory;
   prompt: string;
   response: string;
