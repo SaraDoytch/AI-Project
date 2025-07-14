@@ -49,7 +49,8 @@ export interface Prompt {
   id: string;
   user_id: string;
   category_id: string ;
-  // | Category;
+  firstName: string;
+  lastName: string;
   sub_category_id: string | SubCategory;
   prompt: string;
   response: string;

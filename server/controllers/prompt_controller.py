@@ -72,15 +72,19 @@ def serialize_prompt(prompt):
 
     try:
         user_id = str(prompt.user_id.id)
-        user_name = f"{prompt.user_id.firstName} {prompt.user_id.lastName}"
+        firstName = f"{prompt.user_id.firstName}"
+        lastName = f"{prompt.user_id.lastName}"
+
     except Exception:
         user_id = None
-        user_name = ""
+        firstName = ""
+        lastName = ""
 
     return {
         "id": str(prompt.id),
         "user_id": user_id,
-        "user_name": user_name,
+        "firstName": firstName,
+        "lastName": lastName,
         "category_id": category_id,
         "category_name": category_name,
         "sub_category_id": sub_category_id,
