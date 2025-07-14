@@ -7,12 +7,15 @@ from controllers.category_controller import (
     update_category, update_subCategory
 )
 from flasgger.utils import swag_from
+from middleware.auth_required import auth_required, admin_required
 
 category_bp = Blueprint('category_bp', __name__)
 
 # קטגוריות
 @category_bp.route('/', methods=['POST'])
 @swag_from('../docs/category/add_category.yml')
+# @auth_required
+@admin_required
 def add_category_route():
     return add_category()
 
@@ -28,27 +31,37 @@ def get_category_by_id_route(id):
 
 @category_bp.route('/<string:id>', methods=['PATCH'])
 @swag_from('../docs/category/update_category.yml')
+# @auth_required
+@admin_required
 def update_category_route(id):
     return update_category(id)
 
 @category_bp.route('/<string:id>', methods=['DELETE'])
 @swag_from('../docs/category/delete_category.yml')
+# @auth_required
+@admin_required
 def delete_category_route(id):
     return delete_category(id)
 
 # תתי־קטגוריות
 @category_bp.route('/subCategory', methods=['POST'])
 @swag_from('../docs/category/add_subCategory.yml')
+# @auth_required
+@admin_required
 def add_sub_category_route():
     return add_subCategory()
 
 @category_bp.route('/subCategory/<string:sub_id>', methods=['PATCH'])
 @swag_from('../docs/category/update_subCategory.yml')
+# @auth_required
+@admin_required
 def update_sub_category_route(sub_id):
     return update_subCategory(sub_id)
 
 @category_bp.route('/subCategory/<string:sub_id>', methods=['DELETE'])
 @swag_from('../docs/category/delete_subCategory.yml')
+# @auth_required
+@admin_required
 def delete_sub_category_route(sub_id):
     return delete_subCategory(sub_id)
 

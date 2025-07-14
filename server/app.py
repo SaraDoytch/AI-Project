@@ -1,9 +1,9 @@
-import eventlet
-eventlet.monkey_patch()
+# import eventlet
+# eventlet.monkey_patch()
 import socket
 
-print("Eventlet version:", eventlet.__version__)
-print("Is eventlet monkey patched for 'socket' module:", eventlet.patcher.is_monkey_patched(socket))
+# print("Eventlet version:", eventlet.__version__)
+# print("Is eventlet monkey patched for 'socket' module:", eventlet.patcher.is_monkey_patched(socket))
 
 import os
 # from flask_socketio import SocketIO
@@ -52,6 +52,7 @@ def connect_db():
 
 print("🚀 Starting Flask App...")
 connect_db()
+# print("🔍 Decoded token:", decoded)
 
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
