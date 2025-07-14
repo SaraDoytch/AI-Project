@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Container,
   Typography,
@@ -7,6 +7,10 @@ import {
   Button,
   CircularProgress,
   Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import { useGetAllPromptsQuery } from "../stores/Slices/promptApiSlice";
 import { Prompt } from "../interfaces/Interface";
@@ -89,6 +93,10 @@ const AllPrompts = () => {
               >
                 {lesson.prompt}
               </Typography>
+                 {/* הוספת הצגת הקטגוריה */}
+        <Typography variant="body2" color="text.secondary" mt={1}>
+          קטגוריה: {lesson.category_name || "לא זמין"}
+        </Typography>
               <Typography
                 variant="body2"
                 color="text.secondary"
@@ -102,19 +110,18 @@ const AllPrompts = () => {
         ))}
       </Grid>
 
-      {selectedLesson && (
-        <Paper sx={{ p: 3, mt: 5, backgroundColor: "#f9f9f9" }} elevation={3}>
-          <Typography variant="h6" gutterBottom>
-            {selectedLesson.prompt}
-          </Typography>
+      <Dialog open={!!selectedLesson} onClose={() => setSelectedLesson(null)} maxWidth="sm" fullWidth>
+        <DialogTitle>{selectedLesson?.prompt}</DialogTitle>
+        <DialogContent dividers>
           <Typography variant="body1" sx={{ whiteSpace: "pre-line" }}>
-            {selectedLesson.response}
+            {selectedLesson?.response}
           </Typography>
-          <Button sx={{ mt: 2 }} onClick={() => setSelectedLesson(null)}>
-            סגור
-          </Button>
-        </Paper>
-      )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setSelectedLesson(null)}>סגור</Button>
+        </DialogActions>
+      </Dialog>
+
 
       <Button sx={{ mt: 4 }} variant="outlined" onClick={() => navigate(-1)}>
         חזור

@@ -10,10 +10,13 @@ import {
     ListItem,
     ListItemText,
     Divider,
-    Paper,
     Button,
     CircularProgress,
     Box,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
@@ -97,19 +100,18 @@ const MyLessons = () => {
                 ))}
             </List>
 
-            {selectedLesson && (
-                <Paper sx={{ p: 3, mt: 3, backgroundColor: "#f9f9f9" }} elevation={3}>
-                    <Typography variant="h6" gutterBottom>
-                        {selectedLesson.prompt}
-                    </Typography>
+            <Dialog open={!!selectedLesson} onClose={() => setSelectedLesson(null)} maxWidth="sm" fullWidth>
+                <DialogTitle>{selectedLesson?.prompt}</DialogTitle>
+                <DialogContent dividers>
                     <Typography variant="body1" sx={{ whiteSpace: "pre-line" }}>
-                        {selectedLesson.response}
+                        {selectedLesson?.response}
                     </Typography>
-                    <Button sx={{ mt: 2 }} onClick={() => setSelectedLesson(null)}>
-                        סגור
-                    </Button>
-                </Paper>
-            )}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setSelectedLesson(null)}>סגור</Button>
+                </DialogActions>
+            </Dialog>
+
 
             <Button sx={{ mt: 4 }} variant="outlined" onClick={() => navigate(-1)}>
                 חזור
