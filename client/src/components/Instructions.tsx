@@ -13,7 +13,7 @@ const Instructions = () => {
         איך להשתמש באתר וליצור שיעורים
       </Typography>
 
-      <Typography variant="body1" paragraph>
+      <Typography variant="body1">
         ברוכים הבאים לפלטפורמת הלמידה שלנו! כאן תוכלו ליצור שיעורים מותאמים אישית בעזרת בינה מלאכותית, לפי נושאים שמעניינים אתכם.
       </Typography>
 

@@ -7,6 +7,17 @@
   /* text-align: center; */ 
 }
 
+ body, #root {
+  margin: 0;
+  padding: 10px 10px;
+  width: 100%;
+  max-width: 100%;
+  direction: rtl;
+  text-align: right;
+  box-sizing: border-box;
+}
+
+
 .logo {
   height: 6em;
   padding: 1.5em;
