@@ -10,6 +10,7 @@ import AdminDashboard from '../components/AdminDashboard';
 import AllLessons from '../components/AllLessons';
 import Instructions from '../components/Instructions';
 import MyLessons from '../components/MyLessons';
+import AllPrompts from '../components/AllPrompts';
 
 const router = createBrowserRouter([
   {
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
         ]
       },
       { path: "/instructions", element: <Instructions /> },
-
+      { path: "/AllPrompts", element: <AllPrompts /> },
       { path: "/myLessons", element: <MyLessons /> }
 
     ],

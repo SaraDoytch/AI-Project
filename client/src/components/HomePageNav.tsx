@@ -51,6 +51,12 @@ const HomePageNav = () => {
       })}>
         עמוד הבית
       </NavLink>
+        <NavLink to="/AllPrompts" style={({ isActive }) => ({
+        color: isActive ? '#004ba0' : '#333',
+        fontWeight: isActive ? '700' : '400',
+      })}>
+        לכל השיעורים
+      </NavLink>
       <NavLink to="/myLessons" style={({ isActive }) => ({
         color: isActive ? '#004ba0' : '#333',
         fontWeight: isActive ? '700' : '400',
